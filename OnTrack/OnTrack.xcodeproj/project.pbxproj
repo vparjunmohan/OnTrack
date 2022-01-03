@@ -16,6 +16,8 @@
 		DED617C227836CB100503DAF /* OnTrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617C127836CB100503DAF /* OnTrackTests.swift */; };
 		DED617CC27836CB100503DAF /* OnTrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617CB27836CB100503DAF /* OnTrackUITests.swift */; };
 		DED617CE27836CB100503DAF /* OnTrackUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617CD27836CB100503DAF /* OnTrackUITestsLaunchTests.swift */; };
+		DED617DE27836F3500503DAF /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617DC27836F3500503DAF /* TaskTableViewCell.swift */; };
+		DED617DF27836F3500503DAF /* TaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DED617DD27836F3500503DAF /* TaskTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		DED617C727836CB100503DAF /* OnTrackUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnTrackUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DED617CB27836CB100503DAF /* OnTrackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTrackUITests.swift; sourceTree = "<group>"; };
 		DED617CD27836CB100503DAF /* OnTrackUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnTrackUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DED617DC27836F3500503DAF /* TaskTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		DED617DD27836F3500503DAF /* TaskTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TaskTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				DED617B327836CB100503DAF /* Assets.xcassets */,
 				DED617B527836CB100503DAF /* LaunchScreen.storyboard */,
 				DED617B827836CB100503DAF /* Info.plist */,
+				DED617DC27836F3500503DAF /* TaskTableViewCell.swift */,
+				DED617DD27836F3500503DAF /* TaskTableViewCell.xib */,
 			);
 			path = OnTrack;
 			sourceTree = "<group>";
@@ -231,6 +237,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DED617DF27836F3500503DAF /* TaskTableViewCell.xib in Resources */,
 				DED617B727836CB100503DAF /* LaunchScreen.storyboard in Resources */,
 				DED617B427836CB100503DAF /* Assets.xcassets in Resources */,
 				DED617B227836CAF00503DAF /* Main.storyboard in Resources */,
@@ -258,6 +265,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DED617DE27836F3500503DAF /* TaskTableViewCell.swift in Sources */,
 				DED617AF27836CAF00503DAF /* ViewController.swift in Sources */,
 				DED617AB27836CAF00503DAF /* AppDelegate.swift in Sources */,
 				DED617AD27836CAF00503DAF /* SceneDelegate.swift in Sources */,
