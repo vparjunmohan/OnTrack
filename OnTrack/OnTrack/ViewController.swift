@@ -9,14 +9,44 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var taskListArray: [String] = ["todo1", "todo2"]
+    @IBOutlet weak var todoTableView: UITableView!
+    
+    var taskListArray: [String] = []
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    
+    
+    @IBAction func addButton(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Create", message: "Add new task", preferredStyle: .alert)
+            alert.addTextField() { newTextField in
+                newTextField.placeholder = ""
+            }
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
+                if let textFields = alert.textFields, let tf = textFields.first, let result = tf.text {
+                    if result.trimmingCharacters(in: .whitespaces).isEmpty {
+                        self.displayEmptyFieldAlert()
+                    } else {
+                        self.taskListArray.append(result)
+                        self.todoTableView.reloadData()
+                        
+                    }
+                }
 
+            })
+        self.present(alert, animated: true)
+    }
+    
+    func displayEmptyFieldAlert(){
+        let alert = UIAlertController(title: "Alert", message: "Task name cannot be empty", preferredStyle: UIAlertController.Style.alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 
 }
 

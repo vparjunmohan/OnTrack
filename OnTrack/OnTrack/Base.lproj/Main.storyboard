@@ -36,6 +36,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="">
                                             <backgroundConfiguration key="background" image="plus" catalog="system"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="addButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="35C-2y-irK"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemPinkColor"/>
@@ -58,7 +61,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F7D-yM-DMO">
-                                                    <rect key="frame" x="40" y="11.5" width="42" height="21"/>
+                                                    <rect key="frame" x="30" y="11.5" width="42" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -66,7 +69,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="F7D-yM-DMO" firstAttribute="centerY" secondItem="y0Y-jy-Sa0" secondAttribute="centerY" id="cbg-b2-hOO"/>
-                                                <constraint firstItem="F7D-yM-DMO" firstAttribute="leading" secondItem="y0Y-jy-Sa0" secondAttribute="leadingMargin" constant="20" id="htw-rU-bGR"/>
+                                                <constraint firstItem="F7D-yM-DMO" firstAttribute="leading" secondItem="y0Y-jy-Sa0" secondAttribute="leadingMargin" constant="10" id="htw-rU-bGR"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -93,6 +96,9 @@
                             <constraint firstItem="4Zp-Pq-rmx" firstAttribute="top" secondItem="fIa-gl-w8W" secondAttribute="bottom" id="ulr-lh-0SJ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="todoTableView" destination="4Zp-Pq-rmx" id="p0x-em-lX7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
