@@ -49,6 +49,16 @@ class ViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
+    @IBAction func didClickSideBar(_ sender: UIButton) {
+        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController")
+        self.addChild(addVC)
+        self.view.addSubview(addVC.view)
+        addVC.didMove(toParent: self)
+        
+    }
+    
+    
 
 }
 
