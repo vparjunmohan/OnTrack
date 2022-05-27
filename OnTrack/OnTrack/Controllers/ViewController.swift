@@ -37,7 +37,7 @@ class ViewController: UIViewController {
                         self.displayEmptyFieldAlert()
                     } else {
                         let uuid = UUID().uuidString
-                        var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":""] as [String : Any]
+                        var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
                         self.taskArrayPayload.append(taskData)
                         self.todoTableView.reloadData()
                         
@@ -69,16 +69,17 @@ class ViewController: UIViewController {
         let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
         let index = taskArrayPayload.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
         var currentData = taskArrayPayload[index!]
-//        print(selectedCell?.accessibilityIdentifier)
         if sender.isSelected {
-            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "CCF3EE")
+//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "14C38E")
+            currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(true, forKey: "is_completed")
             taskArrayPayload.remove(at: index!)
             taskArrayPayload.insert(currentData, at: index!)
             todoTableView.reloadData()
             print(taskArrayPayload)
         } else {
-            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
+//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
+            currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(false, forKey: "is_completed")
             taskArrayPayload.remove(at: index!)
             taskArrayPayload.insert(currentData, at: index!)
@@ -104,7 +105,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var currentTask = taskArrayPayload[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TaskTableViewCell
-        cell.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
+        cell.taskContentView.backgroundColor = UIColor.init(hexString: (currentTask["initial_bg_color"] as? String)!)
         cell.separatorInset = .zero
         self.currentUUID = (currentTask["uuid"] as? String)!
         cell.taskContentView.layer.cornerRadius = 10
@@ -150,15 +151,15 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         switch indexPath.row {
         case 0:
             // Total tasks
-            cell.categoryContentView.backgroundColor = UIColor.init(hexString: "7FB5FF")
+            cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.totalTaskColor)
             break
         case 1:
             // Priority
-            cell.categoryContentView.backgroundColor = UIColor.init(hexString: "FFEF82")
+            cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.priorityTaskColor)
             break
         case 2:
             // Completed
-            cell.categoryContentView.backgroundColor = UIColor.init(hexString: "14C38E")
+            cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.completedTaskColor)
             break
         default:
             break
