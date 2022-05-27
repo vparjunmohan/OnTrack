@@ -12,7 +12,6 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var totalTasksLabel: UILabel!
     @IBOutlet weak var taskCategoryLabel: UILabel!
-    @IBOutlet weak var taskProgressView: UIProgressView!
     @IBOutlet weak var categoryContentView: UIView!
     
     

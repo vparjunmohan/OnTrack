@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE0B59112840DC3800A5F418 /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59102840DC3800A5F418 /* AppExtensions.swift */; };
+		DE0B59142841357C00A5F418 /* DbOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59132841357C00A5F418 /* DbOperations.swift */; };
+		DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59162841377B00A5F418 /* AppUtils.swift */; };
 		DE158B5C2784B15C00432405 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */; };
 		DE158B5D2784B15C00432405 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */; };
 		DE2B988227860BCA00F4F457 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2B988127860BCA00F4F457 /* SideBarViewController.swift */; };
@@ -41,6 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE0B59102840DC3800A5F418 /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
+		DE0B59132841357C00A5F418 /* DbOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbOperations.swift; sourceTree = "<group>"; };
+		DE0B59162841377B00A5F418 /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
 		DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
 		DE2B988127860BCA00F4F457 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +92,69 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DE0B590F2840DBEF00A5F418 /* AppConstants */ = {
+			isa = PBXGroup;
+			children = (
+				DE0B59102840DC3800A5F418 /* AppExtensions.swift */,
+			);
+			path = AppConstants;
+			sourceTree = "<group>";
+		};
+		DE0B5912284134A600A5F418 /* SQLiteHandler */ = {
+			isa = PBXGroup;
+			children = (
+				DE0B59132841357C00A5F418 /* DbOperations.swift */,
+			);
+			path = SQLiteHandler;
+			sourceTree = "<group>";
+		};
+		DE0B59152841375F00A5F418 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DE0B59162841377B00A5F418 /* AppUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		DE0B5918284154F200A5F418 /* General */ = {
+			isa = PBXGroup;
+			children = (
+				DED617AA27836CAF00503DAF /* AppDelegate.swift */,
+				DED617AC27836CAF00503DAF /* SceneDelegate.swift */,
+			);
+			path = General;
+			sourceTree = "<group>";
+		};
+		DE0B59192841557F00A5F418 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DE2B988127860BCA00F4F457 /* SideBarViewController.swift */,
+				DED617AE27836CAF00503DAF /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		DE0B591A2841560100A5F418 /* Storyboards and Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				DED617B027836CAF00503DAF /* Main.storyboard */,
+				DED617B527836CB100503DAF /* LaunchScreen.storyboard */,
+				DED617DC27836F3500503DAF /* TaskTableViewCell.swift */,
+				DED617DD27836F3500503DAF /* TaskTableViewCell.xib */,
+				DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */,
+				DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */,
+			);
+			path = "Storyboards and Xibs";
+			sourceTree = "<group>";
+		};
+		DE0B591B2841564600A5F418 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DED617B327836CB100503DAF /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		DED6179E27836CAF00503DAF = {
 			isa = PBXGroup;
 			children = (
@@ -109,18 +178,14 @@
 		DED617A927836CAF00503DAF /* OnTrack */ = {
 			isa = PBXGroup;
 			children = (
-				DED617AA27836CAF00503DAF /* AppDelegate.swift */,
-				DED617AC27836CAF00503DAF /* SceneDelegate.swift */,
-				DED617AE27836CAF00503DAF /* ViewController.swift */,
-				DED617B027836CAF00503DAF /* Main.storyboard */,
-				DED617B327836CB100503DAF /* Assets.xcassets */,
-				DED617B527836CB100503DAF /* LaunchScreen.storyboard */,
+				DE0B591A2841560100A5F418 /* Storyboards and Xibs */,
+				DE0B5918284154F200A5F418 /* General */,
+				DE0B590F2840DBEF00A5F418 /* AppConstants */,
+				DE0B5912284134A600A5F418 /* SQLiteHandler */,
+				DE0B59192841557F00A5F418 /* Controllers */,
+				DE0B59152841375F00A5F418 /* Utils */,
+				DE0B591B2841564600A5F418 /* Resources */,
 				DED617B827836CB100503DAF /* Info.plist */,
-				DED617DC27836F3500503DAF /* TaskTableViewCell.swift */,
-				DED617DD27836F3500503DAF /* TaskTableViewCell.xib */,
-				DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */,
-				DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */,
-				DE2B988127860BCA00F4F457 /* SideBarViewController.swift */,
 			);
 			path = OnTrack;
 			sourceTree = "<group>";
@@ -275,12 +340,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */,
 				DED617DE27836F3500503DAF /* TaskTableViewCell.swift in Sources */,
 				DE2B988227860BCA00F4F457 /* SideBarViewController.swift in Sources */,
 				DED617AF27836CAF00503DAF /* ViewController.swift in Sources */,
 				DED617AB27836CAF00503DAF /* AppDelegate.swift in Sources */,
 				DED617AD27836CAF00503DAF /* SceneDelegate.swift in Sources */,
 				DE158B5C2784B15C00432405 /* CategoriesCollectionViewCell.swift in Sources */,
+				DE0B59112840DC3800A5F418 /* AppExtensions.swift in Sources */,
+				DE0B59142841357C00A5F418 /* DbOperations.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

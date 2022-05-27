@@ -13,6 +13,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     
     var taskListArray: [String] = []
+    var taskArrayPayload: [[String:Any]] = []
+    var currentUUID: String = ""
+    
     
     
     override func viewDidLoad() {
@@ -33,7 +36,9 @@ class ViewController: UIViewController {
                     if result.trimmingCharacters(in: .whitespaces).isEmpty {
                         self.displayEmptyFieldAlert()
                     } else {
-                        self.taskListArray.append(result)
+                        let uuid = UUID().uuidString
+                        var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":""] as [String : Any]
+                        self.taskArrayPayload.append(taskData)
                         self.todoTableView.reloadData()
                         
                     }
@@ -58,6 +63,34 @@ class ViewController: UIViewController {
         
     }
     
+    @objc func checkButtonSelected(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        let senderTag = sender.tag
+        let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
+        let index = taskArrayPayload.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
+        var currentData = taskArrayPayload[index!]
+//        print(selectedCell?.accessibilityIdentifier)
+        if sender.isSelected {
+            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "CCF3EE")
+            currentData.updateValue(true, forKey: "is_completed")
+            taskArrayPayload.remove(at: index!)
+            taskArrayPayload.insert(currentData, at: index!)
+            todoTableView.reloadData()
+            print(taskArrayPayload)
+        } else {
+            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
+            currentData.updateValue(false, forKey: "is_completed")
+            taskArrayPayload.remove(at: index!)
+            taskArrayPayload.insert(currentData, at: index!)
+            todoTableView.reloadData()
+            print(taskArrayPayload)
+        }
+    }
+    
+    @objc func priorityButtonSelected(_ sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+    }
+    
     
 
 }
@@ -65,15 +98,26 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskListArray.count
+        return taskArrayPayload.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var currentTask = taskArrayPayload[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TaskTableViewCell
+        cell.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
         cell.separatorInset = .zero
+        self.currentUUID = (currentTask["uuid"] as? String)!
         cell.taskContentView.layer.cornerRadius = 10
         cell.taskContentView.clipsToBounds = true
-        cell.taskNameLabel.text = taskListArray[indexPath.row]
+        cell.accessibilityIdentifier = currentTask["uuid"] as? String
+        cell.taskNameLabel.text = currentTask["task_title"] as? String
+        cell.checkButton.isSelected = (currentTask["is_completed"] as? Bool)!
+        cell.priorityButton.isSelected = (currentTask["is_priority"] as? Bool)!
+        cell.tag = indexPath.row
+        cell.checkButton.tag = indexPath.row
+        cell.priorityButton.tag = indexPath.row
+        cell.checkButton.addTarget(self, action: #selector(checkButtonSelected(_:)), for: .touchUpInside)
+        cell.priorityButton.addTarget(self, action: #selector(priorityButtonSelected(_:)), for: .touchUpInside)
         return cell
     }
     
@@ -98,11 +142,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "categoryCell", for: indexPath) as! CategoriesCollectionViewCell
+        switch indexPath.row {
+        case 0:
+            // Total tasks
+            cell.categoryContentView.backgroundColor = UIColor.init(hexString: "7FB5FF")
+            break
+        case 1:
+            // Priority
+            cell.categoryContentView.backgroundColor = UIColor.init(hexString: "FFEF82")
+            break
+        case 2:
+            // Completed
+            cell.categoryContentView.backgroundColor = UIColor.init(hexString: "14C38E")
+            break
+        default:
+            break
+        }
         cell.categoryContentView.layer.cornerRadius = 10
         cell.categoryContentView.clipsToBounds = true
         cell.layer.shadowColor = UIColor.black.cgColor
@@ -122,7 +182,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         func collectionView(_ collectionView: UICollectionView,
                             layout collectionViewLayout: UICollectionViewLayout,
                             sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: 250, height: 130)
+            return CGSize(width: 250, height: 100)
 
         }
 
@@ -135,10 +195,10 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         func collectionView(_ collectionView: UICollectionView, layout
             collectionViewLayout: UICollectionViewLayout,
                             minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 20.0
+            return 30.0
         }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 120)
+        return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 80)
     }
-    }
+}
