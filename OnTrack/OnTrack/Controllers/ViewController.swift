@@ -90,9 +90,29 @@ class ViewController: UIViewController {
     
     @objc func priorityButtonSelected(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
+        let senderTag = sender.tag
+        let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
+        let index = taskArrayPayload.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
+        var currentData = taskArrayPayload[index!]
+        if sender.isSelected {
+//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "14C38E")
+//            currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
+            currentData.updateValue(true, forKey: "is_priority")
+            taskArrayPayload.remove(at: index!)
+            taskArrayPayload.insert(currentData, at: index!)
+            todoTableView.reloadData()
+            categoryCollectionView.reloadData()
+        } else {
+//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
+//            currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
+            currentData.updateValue(false, forKey: "is_priority")
+            taskArrayPayload.remove(at: index!)
+            taskArrayPayload.insert(currentData, at: index!)
+            todoTableView.reloadData()
+            categoryCollectionView.reloadData()
+        }
+  
     }
-    
-    
 
 }
 
@@ -126,8 +146,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            taskListArray.remove(at: indexPath.row)
+            taskArrayPayload.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
+            categoryCollectionView.reloadData()
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
         }
@@ -159,7 +182,10 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             // Priority
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.priorityTaskColor)
             cell.taskCategoryLabel.text = AppConstants.priorityTaskLabelText
-            
+            let priorityFilter = taskArrayPayload.filter{ item in
+                item["is_priority"] as? Bool == true
+            }
+            cell.totalTasksLabel.text = "\(priorityFilter.count) tasks"
             break
         case 2:
             // Completed
