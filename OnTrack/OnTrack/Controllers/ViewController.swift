@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addButton(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Create", message: "Add new task", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add", message: "Task Title", preferredStyle: .alert)
             alert.addTextField() { newTextField in
                 newTextField.placeholder = ""
             }
@@ -40,7 +40,7 @@ class ViewController: UIViewController {
                         var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
                         self.taskArrayPayload.append(taskData)
                         self.todoTableView.reloadData()
-                        
+                        self.categoryCollectionView.reloadData()
                     }
                 }
 
@@ -76,7 +76,7 @@ class ViewController: UIViewController {
             taskArrayPayload.remove(at: index!)
             taskArrayPayload.insert(currentData, at: index!)
             todoTableView.reloadData()
-            print(taskArrayPayload)
+            categoryCollectionView.reloadData()
         } else {
 //            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
             currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
             taskArrayPayload.remove(at: index!)
             taskArrayPayload.insert(currentData, at: index!)
             todoTableView.reloadData()
-            print(taskArrayPayload)
+            categoryCollectionView.reloadData()
         }
     }
     
@@ -103,7 +103,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var currentTask = taskArrayPayload[indexPath.row]
+        let currentTask = taskArrayPayload[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TaskTableViewCell
         cell.taskContentView.backgroundColor = UIColor.init(hexString: (currentTask["initial_bg_color"] as? String)!)
         cell.separatorInset = .zero
@@ -152,18 +152,28 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         case 0:
             // Total tasks
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.totalTaskColor)
+            cell.taskCategoryLabel.text = AppConstants.totalTaskLabelText
+            cell.totalTasksLabel.text = "\(taskArrayPayload.count) tasks"
             break
         case 1:
             // Priority
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.priorityTaskColor)
+            cell.taskCategoryLabel.text = AppConstants.priorityTaskLabelText
+            
             break
         case 2:
             // Completed
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.completedTaskColor)
+            cell.taskCategoryLabel.text = AppConstants.completedTaskLabelText
+            let completedFilter = taskArrayPayload.filter{ item in
+                item["is_completed"] as? Bool == true
+            }
+            cell.totalTasksLabel.text = "\(completedFilter.count) tasks"
             break
         default:
             break
         }
+        
         cell.categoryContentView.layer.cornerRadius = 10
         cell.categoryContentView.clipsToBounds = true
         cell.layer.shadowColor = UIColor.black.cgColor

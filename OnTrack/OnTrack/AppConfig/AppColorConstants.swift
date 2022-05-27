@@ -17,5 +17,5 @@ class AppColorConstants: NSObject {
     // Homescreem collectionview constants
     public static let totalTaskColor : String = "7FB5FF"
     public static let completedTaskColor : String = "14C38E"
-    public static let priorityTaskColor : String = "FFEF82"
+    public static let priorityTaskColor : String = "F68989"
 }

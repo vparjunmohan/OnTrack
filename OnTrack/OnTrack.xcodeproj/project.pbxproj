@@ -11,6 +11,7 @@
 		DE0B59142841357C00A5F418 /* DbOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59132841357C00A5F418 /* DbOperations.swift */; };
 		DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59162841377B00A5F418 /* AppUtils.swift */; };
 		DE0B591D28415CD500A5F418 /* AppColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B591C28415CD500A5F418 /* AppColorConstants.swift */; };
+		DE0B591F2841611200A5F418 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B591E2841611200A5F418 /* AppConstants.swift */; };
 		DE158B5C2784B15C00432405 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */; };
 		DE158B5D2784B15C00432405 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */; };
 		DE2B988227860BCA00F4F457 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2B988127860BCA00F4F457 /* SideBarViewController.swift */; };
@@ -49,6 +50,7 @@
 		DE0B59132841357C00A5F418 /* DbOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbOperations.swift; sourceTree = "<group>"; };
 		DE0B59162841377B00A5F418 /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
 		DE0B591C28415CD500A5F418 /* AppColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColorConstants.swift; sourceTree = "<group>"; };
+		DE0B591E2841611200A5F418 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
 		DE2B988127860BCA00F4F457 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
@@ -94,13 +96,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		DE0B590F2840DBEF00A5F418 /* AppConstants */ = {
+		DE0B590F2840DBEF00A5F418 /* AppConfig */ = {
 			isa = PBXGroup;
 			children = (
 				DE0B59102840DC3800A5F418 /* AppExtensions.swift */,
 				DE0B591C28415CD500A5F418 /* AppColorConstants.swift */,
+				DE0B591E2841611200A5F418 /* AppConstants.swift */,
 			);
-			path = AppConstants;
+			path = AppConfig;
 			sourceTree = "<group>";
 		};
 		DE0B5912284134A600A5F418 /* SQLiteHandler */ = {
@@ -183,7 +186,7 @@
 			children = (
 				DE0B591A2841560100A5F418 /* Storyboards and Xibs */,
 				DE0B5918284154F200A5F418 /* General */,
-				DE0B590F2840DBEF00A5F418 /* AppConstants */,
+				DE0B590F2840DBEF00A5F418 /* AppConfig */,
 				DE0B5912284134A600A5F418 /* SQLiteHandler */,
 				DE0B59192841557F00A5F418 /* Controllers */,
 				DE0B59152841375F00A5F418 /* Utils */,
@@ -346,6 +349,7 @@
 				DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */,
 				DED617DE27836F3500503DAF /* TaskTableViewCell.swift in Sources */,
 				DE2B988227860BCA00F4F457 /* SideBarViewController.swift in Sources */,
+				DE0B591F2841611200A5F418 /* AppConstants.swift in Sources */,
 				DE0B591D28415CD500A5F418 /* AppColorConstants.swift in Sources */,
 				DED617AF27836CAF00503DAF /* ViewController.swift in Sources */,
 				DED617AB27836CAF00503DAF /* AppDelegate.swift in Sources */,
