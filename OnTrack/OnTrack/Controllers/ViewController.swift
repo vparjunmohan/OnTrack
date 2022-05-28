@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var todoTableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var searchTextField: UITextField!
@@ -27,25 +27,25 @@ class ViewController: UIViewController {
     
     @IBAction func addButton(_ sender: UIButton) {
         let alert = UIAlertController(title: "Add", message: "Task Title", preferredStyle: .alert)
-            alert.addTextField() { newTextField in
-                newTextField.placeholder = ""
-            }
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-            alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
-                if let textFields = alert.textFields, let tf = textFields.first, let result = tf.text {
-                    if result.trimmingCharacters(in: .whitespaces).isEmpty {
-                        self.displayEmptyFieldAlert()
-                    } else {
-                        let uuid = UUID().uuidString
-                        var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
-                        self.taskArrayPayload.append(taskData)
-                        self.tempTaskArray = self.taskArrayPayload
-                        self.todoTableView.reloadData()
-                        self.categoryCollectionView.reloadData()
-                    }
+        alert.addTextField() { newTextField in
+            newTextField.placeholder = ""
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
+            if let textFields = alert.textFields, let tf = textFields.first, let result = tf.text {
+                if result.trimmingCharacters(in: .whitespaces).isEmpty {
+                    self.displayEmptyFieldAlert()
+                } else {
+                    let uuid = UUID().uuidString
+                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
+                    self.taskArrayPayload.append(taskData)
+                    self.tempTaskArray = self.taskArrayPayload
+                    self.todoTableView.reloadData()
+                    self.categoryCollectionView.reloadData()
                 }
-
-            })
+            }
+            
+        })
         self.present(alert, animated: true)
     }
     
@@ -71,7 +71,6 @@ class ViewController: UIViewController {
         button.frame = CGRect(x: 5, y:0, width: CGFloat(18), height: CGFloat(18))
         let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
         button.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-//        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
         button.tintColor = .lightGray
         paddingView.addSubview(button)
         searchTextField.leftViewMode = .always
@@ -96,7 +95,6 @@ class ViewController: UIViewController {
         let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
         var currentData = tempTaskArray[index!]
         if sender.isSelected {
-//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "14C38E")
             currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(true, forKey: "is_completed")
             tempTaskArray.remove(at: index!)
@@ -104,7 +102,6 @@ class ViewController: UIViewController {
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
-//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
             currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(false, forKey: "is_completed")
             tempTaskArray.remove(at: index!)
@@ -121,25 +118,19 @@ class ViewController: UIViewController {
         let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
         var currentData = tempTaskArray[index!]
         if sender.isSelected {
-//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "14C38E")
-//            currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(true, forKey: "is_priority")
             tempTaskArray.remove(at: index!)
             tempTaskArray.insert(currentData, at: index!)
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
-//            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
-//            currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(false, forKey: "is_priority")
             tempTaskArray.remove(at: index!)
             tempTaskArray.insert(currentData, at: index!)
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
-  
     }
-
 }
 
 
@@ -171,8 +162,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            // issue when deleting after searching
             tempTaskArray.remove(at: indexPath.row)
+            taskArrayPayload.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
             tableView.reloadData()
             categoryCollectionView.reloadData()
             
@@ -224,7 +218,6 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
         default:
             break
         }
-        
         cell.categoryContentView.layer.cornerRadius = 10
         cell.categoryContentView.clipsToBounds = true
         cell.layer.shadowColor = UIColor.black.cgColor
@@ -241,33 +234,41 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 
 
 extension ViewController: UICollectionViewDelegateFlowLayout {
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: 250, height: 100)
-
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            let screenWidth = UIScreen.main.bounds.width
+            let calculatedCellWidth = (screenWidth - 100) / 3
+            return CGSize(width: calculatedCellWidth, height: 100)
         }
-
-        func collectionView(_ collectionView: UICollectionView,
-                            layout collectionViewLayout: UICollectionViewLayout,
-                            minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-            return 1.0
-        }
-
-        func collectionView(_ collectionView: UICollectionView, layout
-            collectionViewLayout: UICollectionViewLayout,
-                            minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-            return 30.0
-        }
+        return CGSize(width: 250, height: 100)
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1.0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout
+                        collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 30.0
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        }
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 80)
     }
 }
 
 extension ViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-
+        
         let newText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
         if !(newText.isEmpty) {
             let filter = taskArrayPayload.filter{item in
