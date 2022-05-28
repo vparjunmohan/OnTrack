@@ -11,18 +11,18 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var todoTableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
+    @IBOutlet weak var searchTextField: UITextField!
+    
     
     var taskListArray: [String] = []
     var taskArrayPayload: [[String:Any]] = []
-    var currentUUID: String = ""
+    var tempTaskArray: [[String:Any]] = []
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
-        todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        
+        setupUI()
     }
     
     @IBAction func addButton(_ sender: UIButton) {
@@ -39,6 +39,7 @@ class ViewController: UIViewController {
                         let uuid = UUID().uuidString
                         var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
                         self.taskArrayPayload.append(taskData)
+                        self.tempTaskArray = self.taskArrayPayload
                         self.todoTableView.reloadData()
                         self.categoryCollectionView.reloadData()
                     }
@@ -63,26 +64,51 @@ class ViewController: UIViewController {
         
     }
     
+    func setupUI() {
+        categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
+        todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 5, y:0, width: CGFloat(18), height: CGFloat(18))
+        let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
+        button.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+//        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.tintColor = .lightGray
+        paddingView.addSubview(button)
+        searchTextField.leftViewMode = .always
+        searchTextField.rightViewMode = .never
+        searchTextField.leftView = paddingView
+        searchTextField.layer.cornerRadius = 17.5
+        searchTextField.clipsToBounds = true
+        searchTextField.backgroundColor = UIColor.init(hexString: AppColorConstants.searchFieldColor)
+        searchTextField.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        searchTextField.resignFirstResponder()
+    }
+    
     @objc func checkButtonSelected(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         let senderTag = sender.tag
         let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
-        let index = taskArrayPayload.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
-        var currentData = taskArrayPayload[index!]
+        let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
+        var currentData = tempTaskArray[index!]
         if sender.isSelected {
 //            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "14C38E")
             currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(true, forKey: "is_completed")
-            taskArrayPayload.remove(at: index!)
-            taskArrayPayload.insert(currentData, at: index!)
+            tempTaskArray.remove(at: index!)
+            tempTaskArray.insert(currentData, at: index!)
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
 //            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
             currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(false, forKey: "is_completed")
-            taskArrayPayload.remove(at: index!)
-            taskArrayPayload.insert(currentData, at: index!)
+            tempTaskArray.remove(at: index!)
+            tempTaskArray.insert(currentData, at: index!)
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
@@ -92,22 +118,22 @@ class ViewController: UIViewController {
         sender.isSelected = !sender.isSelected
         let senderTag = sender.tag
         let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
-        let index = taskArrayPayload.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
-        var currentData = taskArrayPayload[index!]
+        let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
+        var currentData = tempTaskArray[index!]
         if sender.isSelected {
 //            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "14C38E")
 //            currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(true, forKey: "is_priority")
-            taskArrayPayload.remove(at: index!)
-            taskArrayPayload.insert(currentData, at: index!)
+            tempTaskArray.remove(at: index!)
+            tempTaskArray.insert(currentData, at: index!)
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
 //            selectedCell!.taskContentView.backgroundColor = UIColor.init(hexString: "9BA3EB")
 //            currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
             currentData.updateValue(false, forKey: "is_priority")
-            taskArrayPayload.remove(at: index!)
-            taskArrayPayload.insert(currentData, at: index!)
+            tempTaskArray.remove(at: index!)
+            tempTaskArray.insert(currentData, at: index!)
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
@@ -119,15 +145,14 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return taskArrayPayload.count
+        return tempTaskArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let currentTask = taskArrayPayload[indexPath.row]
+        let currentTask = tempTaskArray[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TaskTableViewCell
         cell.taskContentView.backgroundColor = UIColor.init(hexString: (currentTask["initial_bg_color"] as? String)!)
         cell.separatorInset = .zero
-        self.currentUUID = (currentTask["uuid"] as? String)!
         cell.taskContentView.layer.cornerRadius = 10
         cell.taskContentView.clipsToBounds = true
         cell.accessibilityIdentifier = currentTask["uuid"] as? String
@@ -146,7 +171,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            taskArrayPayload.remove(at: indexPath.row)
+            tempTaskArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
             categoryCollectionView.reloadData()
@@ -176,13 +201,13 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             // Total tasks
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.totalTaskColor)
             cell.taskCategoryLabel.text = AppConstants.totalTaskLabelText
-            cell.totalTasksLabel.text = "\(taskArrayPayload.count) tasks"
+            cell.totalTasksLabel.text = "\(tempTaskArray.count) tasks"
             break
         case 1:
             // Priority
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.priorityTaskColor)
             cell.taskCategoryLabel.text = AppConstants.priorityTaskLabelText
-            let priorityFilter = taskArrayPayload.filter{ item in
+            let priorityFilter = tempTaskArray.filter{ item in
                 item["is_priority"] as? Bool == true
             }
             cell.totalTasksLabel.text = "\(priorityFilter.count) tasks"
@@ -191,7 +216,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             // Completed
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.completedTaskColor)
             cell.taskCategoryLabel.text = AppConstants.completedTaskLabelText
-            let completedFilter = taskArrayPayload.filter{ item in
+            let completedFilter = tempTaskArray.filter{ item in
                 item["is_completed"] as? Bool == true
             }
             cell.totalTasksLabel.text = "\(completedFilter.count) tasks"
@@ -237,5 +262,30 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 80)
+    }
+}
+
+extension ViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+
+        let newText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+        if !(newText.isEmpty) {
+            let filter = taskArrayPayload.filter{item in
+                (item["task_title"]as! String).lowercased().contains(newText.lowercased())
+            }
+            tempTaskArray = filter
+            todoTableView.reloadData()
+        } else {
+            tempTaskArray = taskArrayPayload
+            todoTableView.reloadData()
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        tempTaskArray = taskArrayPayload
+        todoTableView.reloadData()
+        return true
     }
 }

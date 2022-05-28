@@ -9,13 +9,17 @@ import UIKit
 
 class AppColorConstants: NSObject {
 
-    // Homescreen tableview constants
+    // Homescreen
+    public static let searchFieldColor: String = "F7F7F7"
     
-    public static let defaultTaskColor : String = "9BA3EB"
-    public static let checkedTaskColor : String = "14C38E"
+    // Tableview constants
     
-    // Homescreem collectionview constants
-    public static let totalTaskColor : String = "7FB5FF"
-    public static let completedTaskColor : String = "14C38E"
-    public static let priorityTaskColor : String = "F68989"
+    public static let defaultTaskColor: String = "9BA3EB"
+    public static let checkedTaskColor: String = "14C38E"
+    
+    // Collectionview constants
+    public static let totalTaskColor: String = "7FB5FF"
+    public static let completedTaskColor: String = "14C38E"
+    public static let priorityTaskColor: String = "F68989"
+    
 }
