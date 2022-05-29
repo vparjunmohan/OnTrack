@@ -91,8 +91,12 @@ class ViewController: UIViewController {
         searchTextField.clipsToBounds = true
         searchTextField.backgroundColor = UIColor.init(hexString: AppColorConstants.searchFieldColor)
         searchTextField.delegate = self
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
-        self.view.addGestureRecognizer(tapGesture)
+        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        //        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func touchClose(_ sender: UITapGestureRecognizer) {
+        searchTextField.resignFirstResponder()
     }
     
     @objc func uploadAvatarImage() {
@@ -178,6 +182,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let currentTask = tempTaskArray[indexPath.row]
+        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TaskDetailViewController") as! TaskDetailViewController
+        self.addChild(addVC)
+        addVC.selectedTask = currentTask
+        self.view.addSubview(addVC.view)
+        addVC.didMove(toParent: self)
+    }
     
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -311,18 +324,15 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-
 extension ViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-//        picker.dismiss(animated: true)
         let itemProviders = results.map(\.itemProvider)
         for item in itemProviders {
             if item.canLoadObject(ofClass: UIImage.self) {
                 item.loadObject(ofClass: UIImage.self) { (image, error) in
                     DispatchQueue.main.async {
                         if let image = image as? UIImage {
-//                            self.selectedImage = image
                             self.avatarImageView.image = image
                             picker.dismiss(animated: true)
                         } else{
@@ -336,5 +346,18 @@ extension ViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension ViewController : UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldReceive touch: UITouch) -> Bool {
+        if let touchedView = touch.view, let gestureView =
+            gestureRecognizer.view, touchedView.isDescendant(of: gestureView),
+           touchedView !== gestureView {
+            return false
+        }
+        return true
     }
 }
