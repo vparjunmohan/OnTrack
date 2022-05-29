@@ -325,6 +325,12 @@ extension ViewController: PHPickerViewControllerDelegate {
 //                            self.selectedImage = image
                             self.avatarImageView.image = image
                             picker.dismiss(animated: true)
+                        } else{
+                            picker.dismiss(animated: true)
+                            let alertController = UIAlertController(title: "Alert", message: "Error picking image", preferredStyle: .alert)
+                            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            alertController.addAction(action)
+                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                 }
