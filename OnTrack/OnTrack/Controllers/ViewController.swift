@@ -6,17 +6,20 @@
 //
 
 import UIKit
+import PhotosUI
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var todoTableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var avatarImageView: UIImageView!
     
     
     var taskListArray: [String] = []
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
+    var selectedImage: UIImage?
     
     
     
@@ -67,6 +70,14 @@ class ViewController: UIViewController {
     func setupUI() {
         categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
         todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        let avatarClicked = UITapGestureRecognizer(target: self, action: #selector(uploadAvatarImage))
+        if selectedImage != nil {
+            avatarImageView.image = selectedImage
+        }
+        avatarImageView.layer.cornerRadius = 25
+        avatarImageView.clipsToBounds = true
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(avatarClicked)
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 5, y:0, width: CGFloat(18), height: CGFloat(18))
         let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
@@ -82,6 +93,15 @@ class ViewController: UIViewController {
         searchTextField.delegate = self
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func uploadAvatarImage() {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 1
+        config.filter = .images
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -288,5 +308,27 @@ extension ViewController: UITextFieldDelegate {
         tempTaskArray = taskArrayPayload
         todoTableView.reloadData()
         return true
+    }
+}
+
+
+extension ViewController: PHPickerViewControllerDelegate {
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+//        picker.dismiss(animated: true)
+        let itemProviders = results.map(\.itemProvider)
+        for item in itemProviders {
+            if item.canLoadObject(ofClass: UIImage.self) {
+                item.loadObject(ofClass: UIImage.self) { (image, error) in
+                    DispatchQueue.main.async {
+                        if let image = image as? UIImage {
+//                            self.selectedImage = image
+                            self.avatarImageView.image = image
+                            picker.dismiss(animated: true)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

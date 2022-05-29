@@ -10,7 +10,7 @@ import UIKit
 class AppColorConstants: NSObject {
 
     // Homescreen
-    public static let searchFieldColor: String = "F7F7F7"
+    public static let searchFieldColor: String = "F5F5F5"
     
     // Tableview constants
     
