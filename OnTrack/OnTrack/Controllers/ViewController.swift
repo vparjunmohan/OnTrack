@@ -167,6 +167,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let currentTask = tempTaskArray[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! TaskTableViewCell
         cell.taskContentView.backgroundColor = UIColor.init(hexString: (currentTask["initial_bg_color"] as? String)!)
+        cell.selectionStyle = .none
         cell.separatorInset = .zero
         cell.taskContentView.layer.cornerRadius = 10
         cell.taskContentView.clipsToBounds = true
@@ -187,6 +188,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let currentTask = tempTaskArray[indexPath.row]
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TaskDetailViewController") as! TaskDetailViewController
         self.addChild(addVC)
+        addVC.updateTaskDetailDelegate = self
         addVC.selectedTask = currentTask
         self.view.addSubview(addVC.view)
         addVC.didMove(toParent: self)
@@ -360,4 +362,18 @@ extension ViewController : UIGestureRecognizerDelegate {
         }
         return true
     }
+}
+
+extension ViewController: UpdateTaskDetail {
+    func updateCurrentDetail(taskDetail: [String : Any]) {
+        let index = tempTaskArray.firstIndex(where: { ($0["uuid"] as! String) == taskDetail["uuid"] as? String })
+        print(index)
+        if let index = index {
+            tempTaskArray.remove(at: index)
+            tempTaskArray.insert(taskDetail, at: index)
+            todoTableView.reloadData()
+        }
+    }
+    
+    
 }

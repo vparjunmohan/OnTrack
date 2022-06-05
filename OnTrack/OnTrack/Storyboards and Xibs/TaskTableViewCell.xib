@@ -69,6 +69,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="checkButton" destination="knN-2h-jZT" id="RUC-rO-b59"/>
                 <outlet property="priorityButton" destination="ahP-ke-g32" id="omQ-pT-a2N"/>
