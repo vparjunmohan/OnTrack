@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
     var selectedImage: UIImage?
+    var currentUserId: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,13 +32,14 @@ class ViewController: UIViewController {
             newTextField.placeholder = ""
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        alert.addAction(UIAlertAction(title: "Ok", style: .default) { action in
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) { [self] action in
             if let textFields = alert.textFields, let tf = textFields.first, let result = tf.text {
                 if result.trimmingCharacters(in: .whitespaces).isEmpty {
                     self.displayEmptyFieldAlert()
                 } else {
                     let uuid = UUID().uuidString
 //                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
+                    TaskDataEntity.taskData.updateValue(currentUserId!, forKey: "current_user")
                     TaskDataEntity.taskData.updateValue(uuid, forKey: "uuid")
                     TaskDataEntity.taskData.updateValue(result, forKey: "task_title")
                     TaskDataEntity.taskData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
@@ -70,6 +72,7 @@ class ViewController: UIViewController {
     }
     
     func setupUI() {
+        currentUserId = UUID().uuidString
         categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
         todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         let avatarClicked = UITapGestureRecognizer(target: self, action: #selector(uploadAvatarImage))
@@ -341,9 +344,32 @@ extension ViewController: PHPickerViewControllerDelegate {
         for item in itemProviders {
             if item.canLoadObject(ofClass: UIImage.self) {
                 item.loadObject(ofClass: UIImage.self) { (image, error) in
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [self] in
                         if let image = image as? UIImage {
-                            self.avatarImageView.image = image
+                            avatarImageView.image = image
+                            TaskDataEntity.taskData.updateValue(AppUtils().convertImageToBase64String(img: avatarImageView.image!), forKey: "avatar_image_data")
+                            var currentDb = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "current_user", selectValue: currentUserId!) as! [[String:Any]]
+                            if currentDb.count > 0 {
+                                var modifiedData: [String:Any]!
+                                for data in 0..<currentDb.count {
+                                    modifiedData = currentDb[data]
+                                    let avatarImgString = AppUtils().convertImageToBase64String(img: avatarImageView.image!)
+                                    modifiedData.updateValue(avatarImgString, forKey: "avatar_image_data")
+                                    currentDb.remove(at: data)
+                                    currentDb.insert(modifiedData, at: data)
+                                }
+                                // delete current database
+                                DbOperations().deleteAllFromTable(tableName: AppConstants.taskTable)
+                                for modifiedData in currentDb {
+                                    DbOperations().insertTable(insertvalues: modifiedData, tableName: AppConstants.taskTable, uniquekey: "uuid")
+                                }
+                                taskArrayPayload.removeAll()
+                                tempTaskArray.removeAll()
+                                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "current_user", selectValue: currentUserId!) as! [[String:Any]]
+                                tempTaskArray = taskArrayPayload
+                                todoTableView.reloadData()
+                                categoryCollectionView.reloadData()
+                            }
                             picker.dismiss(animated: true)
                         } else{
                             picker.dismiss(animated: true)

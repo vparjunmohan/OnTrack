@@ -20,4 +20,8 @@ class AppUtils: NSObject {
         let jsonString = NSString(data: jsonData, encoding: String.Encoding.utf8.rawValue)
         return jsonString! as String
     }
+    
+    func convertImageToBase64String (img: UIImage) -> String {
+        return img.jpegData(compressionQuality: 1)?.base64EncodedString() ?? ""
+    }
 }

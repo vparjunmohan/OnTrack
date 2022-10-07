@@ -9,6 +9,6 @@ import UIKit
 
 class TaskDataEntity: NSObject {
     
-    public static var taskData = ["uuid": "", "task_title": "","is_completed": "false", "is_priority": "false", "task_detail": "", "initial_bg_color": ""] as [String : Any]
+    public static var taskData = ["current_user": "", "uuid": "", "task_title": "", "is_completed": "false", "is_priority": "false", "task_detail": "", "initial_bg_color": "", "avatar_image_data": ""] as [String : Any]
 
 }
