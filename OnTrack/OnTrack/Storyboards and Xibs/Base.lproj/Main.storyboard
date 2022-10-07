@@ -299,7 +299,31 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eW5-M8-cpA">
                                 <rect key="frame" x="0.0" y="448" width="414" height="448"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accounts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RFF-g6-2Qv">
+                                        <rect key="frame" x="174" y="10" width="66" height="18"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="abX-K8-d6e">
+                                        <rect key="frame" x="10" y="38" width="394" height="410"/>
+                                        <color key="backgroundColor" red="0.14117647058823529" green="0.1803921568627451" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="9Qq-Ps-Ihy" id="mvJ-OH-OfD"/>
+                                            <outlet property="delegate" destination="9Qq-Ps-Ihy" id="Hma-mr-hSD"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.14117647058823529" green="0.1803921568627451" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="RFF-g6-2Qv" firstAttribute="centerX" secondItem="eW5-M8-cpA" secondAttribute="centerX" id="0Uh-Dr-QLH"/>
+                                    <constraint firstItem="RFF-g6-2Qv" firstAttribute="top" secondItem="eW5-M8-cpA" secondAttribute="top" constant="10" id="Y57-Nm-cGk"/>
+                                    <constraint firstAttribute="trailing" secondItem="abX-K8-d6e" secondAttribute="trailing" constant="10" id="hTw-8I-Jmg"/>
+                                    <constraint firstItem="abX-K8-d6e" firstAttribute="leading" secondItem="eW5-M8-cpA" secondAttribute="leading" constant="10" id="iYr-rh-gCM"/>
+                                    <constraint firstItem="abX-K8-d6e" firstAttribute="top" secondItem="RFF-g6-2Qv" secondAttribute="bottom" constant="10" id="k9Q-nx-Jgh"/>
+                                    <constraint firstAttribute="bottom" secondItem="abX-K8-d6e" secondAttribute="bottom" id="vsm-gV-L8h"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dKx-ua-0z6"/>
@@ -313,6 +337,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="accountsTableView" destination="abX-K8-d6e" id="rXl-ZS-YSI"/>
                         <outlet property="popupView" destination="eW5-M8-cpA" id="YnZ-zT-n2d"/>
                     </connections>
                 </viewController>
@@ -332,9 +357,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemPinkColor">
             <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

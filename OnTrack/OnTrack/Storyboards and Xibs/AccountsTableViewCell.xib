@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AccountsTableViewCell" rowHeight="70" id="KGk-i7-Jjw" customClass="AccountsTableViewCell" customModule="OnTrack" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="417" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="417" height="70"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ecU-Ga-4SW">
+                        <rect key="frame" x="5" y="5" width="407" height="60"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ghY-gz-PVA">
+                                <rect key="frame" x="10" y="5" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="AnS-xj-NRc"/>
+                                    <constraint firstAttribute="height" constant="50" id="uxR-l4-gNI"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSP-4V-jKV">
+                                <rect key="frame" x="68" y="21.666666666666668" width="36.666666666666657" height="17.000000000000004"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="checkmark.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="BQq-Ts-02G">
+                                <rect key="frame" x="357" y="18.666666666666664" width="30" height="23.666666666666664"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="7He-6t-uie"/>
+                                    <constraint firstAttribute="height" constant="25" id="SBw-E0-7J8"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="BQq-Ts-02G" firstAttribute="centerY" secondItem="ecU-Ga-4SW" secondAttribute="centerY" id="ERq-F5-acr"/>
+                            <constraint firstItem="ghY-gz-PVA" firstAttribute="centerY" secondItem="ecU-Ga-4SW" secondAttribute="centerY" id="Rmt-hh-86i"/>
+                            <constraint firstItem="ghY-gz-PVA" firstAttribute="leading" secondItem="ecU-Ga-4SW" secondAttribute="leading" constant="10" id="WxH-zG-h9J"/>
+                            <constraint firstItem="qSP-4V-jKV" firstAttribute="centerY" secondItem="ecU-Ga-4SW" secondAttribute="centerY" id="gm7-GC-xQH"/>
+                            <constraint firstAttribute="trailing" secondItem="BQq-Ts-02G" secondAttribute="trailing" constant="20" id="lr7-zg-Rsb"/>
+                            <constraint firstItem="qSP-4V-jKV" firstAttribute="leading" secondItem="ghY-gz-PVA" secondAttribute="trailing" constant="8" id="xfN-N7-VN1"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="ecU-Ga-4SW" secondAttribute="trailing" constant="5" id="83D-Xz-eAS"/>
+                    <constraint firstItem="ecU-Ga-4SW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="Eb9-II-DDm"/>
+                    <constraint firstAttribute="bottom" secondItem="ecU-Ga-4SW" secondAttribute="bottom" constant="5" id="ICt-JM-eOW"/>
+                    <constraint firstItem="ecU-Ga-4SW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Si4-g1-Omd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="accountImageView" destination="ghY-gz-PVA" id="QVN-zw-ort"/>
+                <outlet property="accountName" destination="qSP-4V-jKV" id="r5C-I0-Zod"/>
+                <outlet property="checkMarkImageView" destination="BQq-Ts-02G" id="ihu-ml-3mc"/>
+                <outlet property="innerContentView" destination="ecU-Ga-4SW" id="DAZ-C4-akz"/>
+            </connections>
+            <point key="canvasLocation" x="48.46153846153846" y="29.857819905213269"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="checkmark.circle.fill" catalog="system" width="128" height="123"/>
+    </resources>
+</document>

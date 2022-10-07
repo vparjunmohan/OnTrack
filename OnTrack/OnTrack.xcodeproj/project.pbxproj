@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DE09FFB728F0AEBA0037A320 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09FFB628F0AEBA0037A320 /* MenuViewController.swift */; };
+		DE09FFBA28F0B7100037A320 /* AccountsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09FFB828F0B7100037A320 /* AccountsTableViewCell.swift */; };
+		DE09FFBB28F0B7100037A320 /* AccountsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE09FFB928F0B7100037A320 /* AccountsTableViewCell.xib */; };
 		DE0B59112840DC3800A5F418 /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59102840DC3800A5F418 /* AppExtensions.swift */; };
 		DE0B59142841357C00A5F418 /* DbOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59132841357C00A5F418 /* DbOperations.swift */; };
 		DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59162841377B00A5F418 /* AppUtils.swift */; };
@@ -49,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		DE09FFB628F0AEBA0037A320 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		DE09FFB828F0B7100037A320 /* AccountsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsTableViewCell.swift; sourceTree = "<group>"; };
+		DE09FFB928F0B7100037A320 /* AccountsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountsTableViewCell.xib; sourceTree = "<group>"; };
 		DE0B59102840DC3800A5F418 /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		DE0B59132841357C00A5F418 /* DbOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbOperations.swift; sourceTree = "<group>"; };
 		DE0B59162841377B00A5F418 /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 				DED617DD27836F3500503DAF /* TaskTableViewCell.xib */,
 				DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */,
 				DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */,
+				DE09FFB828F0B7100037A320 /* AccountsTableViewCell.swift */,
+				DE09FFB928F0B7100037A320 /* AccountsTableViewCell.xib */,
 			);
 			path = "Storyboards and Xibs";
 			sourceTree = "<group>";
@@ -324,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DED617DF27836F3500503DAF /* TaskTableViewCell.xib in Resources */,
+				DE09FFBB28F0B7100037A320 /* AccountsTableViewCell.xib in Resources */,
 				DE158B5D2784B15C00432405 /* CategoriesCollectionViewCell.xib in Resources */,
 				DED617B727836CB100503DAF /* LaunchScreen.storyboard in Resources */,
 				DED617B427836CB100503DAF /* Assets.xcassets in Resources */,
@@ -353,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */,
+				DE09FFBA28F0B7100037A320 /* AccountsTableViewCell.swift in Sources */,
 				DED617DE27836F3500503DAF /* TaskTableViewCell.swift in Sources */,
 				DE09FFB728F0AEBA0037A320 /* MenuViewController.swift in Sources */,
 				DE0B591F2841611200A5F418 /* AppConstants.swift in Sources */,
