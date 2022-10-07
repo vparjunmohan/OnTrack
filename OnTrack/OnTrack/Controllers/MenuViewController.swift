@@ -34,5 +34,8 @@ class MenuViewController: UIViewController {
 extension MenuViewController {
     func setupUI() {
         view.backgroundColor = .clear
+        popupView.clipsToBounds = true
+        popupView.layer.cornerRadius = 20
+        popupView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
     }
 }
