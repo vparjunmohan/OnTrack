@@ -13,4 +13,7 @@ class AppConstants: NSObject {
     public static let totalTaskLabelText : String = "Total Tasks"
     public static let completedTaskLabelText : String = "Completed Tasks"
     public static let priorityTaskLabelText : String = "Priority Tasks"
+    
+    // Database tables
+    public static let taskTable : String = "TaskTable"
 }

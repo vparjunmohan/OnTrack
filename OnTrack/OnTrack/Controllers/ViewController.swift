@@ -15,13 +15,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var avatarImageView: UIImageView!
     
-    
     var taskListArray: [String] = []
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
     var selectedImage: UIImage?
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +37,16 @@ class ViewController: UIViewController {
                     self.displayEmptyFieldAlert()
                 } else {
                     let uuid = UUID().uuidString
-                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
-                    self.taskArrayPayload.append(taskData)
+//                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
+                    TaskDataEntity.taskData.updateValue(uuid, forKey: "uuid")
+                    TaskDataEntity.taskData.updateValue(result, forKey: "task_title")
+                    TaskDataEntity.taskData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
+                    DbOperations().insertTable(insertvalues: TaskDataEntity.taskData, tableName: AppConstants.taskTable, uniquekey: "uuid")
+                    self.taskArrayPayload = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
                     self.tempTaskArray = self.taskArrayPayload
                     self.todoTableView.reloadData()
                     self.categoryCollectionView.reloadData()
+//                    self.taskArrayPayload.append(taskData)
                 }
             }
             
@@ -54,7 +56,7 @@ class ViewController: UIViewController {
     
     func displayEmptyFieldAlert(){
         let alert = UIAlertController(title: "Alert", message: "Task name cannot be empty", preferredStyle: UIAlertController.Style.alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -320,6 +322,7 @@ extension ViewController: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        textField.text = ""
         tempTaskArray = taskArrayPayload
         todoTableView.reloadData()
         return true
@@ -367,13 +370,10 @@ extension ViewController : UIGestureRecognizerDelegate {
 extension ViewController: UpdateTaskDetail {
     func updateCurrentDetail(taskDetail: [String : Any]) {
         let index = tempTaskArray.firstIndex(where: { ($0["uuid"] as! String) == taskDetail["uuid"] as? String })
-        print(index)
         if let index = index {
             tempTaskArray.remove(at: index)
             tempTaskArray.insert(taskDetail, at: index)
             todoTableView.reloadData()
         }
     }
-    
-    
 }
