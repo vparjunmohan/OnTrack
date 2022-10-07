@@ -64,10 +64,10 @@ class ViewController: UIViewController {
     
     
     @IBAction func didClickSideBar(_ sender: UIButton) {
-        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SideBarViewController")
-        self.addChild(addVC)
-        self.view.addSubview(addVC.view)
-        addVC.didMove(toParent: self)
+        let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        addVC.modalPresentationStyle = .overCurrentContext
+        addVC.view.layer.speed = 0.5
+        self.present(addVC, animated: true)
         
     }
     

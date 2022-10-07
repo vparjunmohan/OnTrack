@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE09FFB728F0AEBA0037A320 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE09FFB628F0AEBA0037A320 /* MenuViewController.swift */; };
 		DE0B59112840DC3800A5F418 /* AppExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59102840DC3800A5F418 /* AppExtensions.swift */; };
 		DE0B59142841357C00A5F418 /* DbOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59132841357C00A5F418 /* DbOperations.swift */; };
 		DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B59162841377B00A5F418 /* AppUtils.swift */; };
@@ -15,7 +16,6 @@
 		DE0B592128434D1D00A5F418 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B592028434D1D00A5F418 /* TaskDetailViewController.swift */; };
 		DE158B5C2784B15C00432405 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */; };
 		DE158B5D2784B15C00432405 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */; };
-		DE2B988227860BCA00F4F457 /* SideBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2B988127860BCA00F4F457 /* SideBarViewController.swift */; };
 		DE325DFC28EDE08300600A83 /* TaskDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE325DFB28EDE08300600A83 /* TaskDataEntity.swift */; };
 		DED617AB27836CAF00503DAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617AA27836CAF00503DAF /* AppDelegate.swift */; };
 		DED617AD27836CAF00503DAF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617AC27836CAF00503DAF /* SceneDelegate.swift */; };
@@ -48,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE09FFB628F0AEBA0037A320 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		DE0B59102840DC3800A5F418 /* AppExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppExtensions.swift; sourceTree = "<group>"; };
 		DE0B59132841357C00A5F418 /* DbOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DbOperations.swift; sourceTree = "<group>"; };
 		DE0B59162841377B00A5F418 /* AppUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtils.swift; sourceTree = "<group>"; };
@@ -56,7 +57,6 @@
 		DE0B592028434D1D00A5F418 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
-		DE2B988127860BCA00F4F457 /* SideBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarViewController.swift; sourceTree = "<group>"; };
 		DE325DFB28EDE08300600A83 /* TaskDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataEntity.swift; sourceTree = "<group>"; };
 		DED617A727836CAF00503DAF /* OnTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DED617AA27836CAF00503DAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -139,9 +139,9 @@
 			isa = PBXGroup;
 			children = (
 				DE325DFB28EDE08300600A83 /* TaskDataEntity.swift */,
-				DE2B988127860BCA00F4F457 /* SideBarViewController.swift */,
 				DED617AE27836CAF00503DAF /* ViewController.swift */,
 				DE0B592028434D1D00A5F418 /* TaskDetailViewController.swift */,
+				DE09FFB628F0AEBA0037A320 /* MenuViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -354,7 +354,7 @@
 			files = (
 				DE0B59172841377B00A5F418 /* AppUtils.swift in Sources */,
 				DED617DE27836F3500503DAF /* TaskTableViewCell.swift in Sources */,
-				DE2B988227860BCA00F4F457 /* SideBarViewController.swift in Sources */,
+				DE09FFB728F0AEBA0037A320 /* MenuViewController.swift in Sources */,
 				DE0B591F2841611200A5F418 /* AppConstants.swift in Sources */,
 				DE0B591D28415CD500A5F418 /* AppColorConstants.swift in Sources */,
 				DE325DFC28EDE08300600A83 /* TaskDataEntity.swift in Sources */,
