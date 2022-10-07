@@ -14,7 +14,7 @@ class DbOperations: NSObject {
     var count = 1
     func createTable(tableName :String,tableValues:[String:Any], unique: String) -> Bool
     {
-        let filename = "onTrack.sqlite"//UserDefaults.standard.value(forKey: "current_db_file_name") as! String
+        let filename = "onTrack.sqlite" //UserDefaults.standard.value(forKey: "current_db_file_name") as! String
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         
         var fields = ""
@@ -56,7 +56,7 @@ class DbOperations: NSObject {
     
     func selectTable(tableName: String) -> [Any]{
         
-        let filename = "todoDb.sqlite"//UserDefaults.standard.value(forKey: "current_db_file_name") != nil ? UserDefaults.standard.value(forKey: "current_db_file_name") as! String : ""
+        let filename = "onTrack.sqlite" //UserDefaults.standard.value(forKey: "current_db_file_name") != nil ? UserDefaults.standard.value(forKey: "current_db_file_name") as! String : ""
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK
@@ -123,7 +123,7 @@ class DbOperations: NSObject {
     
     func selectTableWhere(tableName: String,selectKey:String,selectValue:Any) -> [Any]{
         
-        let filename = "todoDb.sqlite"// UserDefaults.standard.value(forKey: "current_db_file_name") as! String
+        let filename = "onTrack.sqlite" // UserDefaults.standard.value(forKey: "current_db_file_name") as! String
         
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         if sqlite3_open(fileURL.path, &db) == SQLITE_OK
@@ -388,7 +388,7 @@ class DbOperations: NSObject {
     }
     
     func updateTable(valuesToChange:[String:Any],whereKey:String,whereValue:Any,tableName: String){
-        let filename = "todoDb.sqlite"//UserDefaults.standard.value(forKey: "current_db_file_name") as! String
+        let filename = "onTrack.sqlite" //UserDefaults.standard.value(forKey: "current_db_file_name") as! String
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK
@@ -493,7 +493,7 @@ class DbOperations: NSObject {
     }
     
     func deleteTable(deleteKey:String,deleteValue:Any,tableName: String){
-        let filename = "onTrack.sqlite" //UserDefaults.standard.value(forKey: "current_db_file_name") as! String
+        let filename = "onTrack.sqlite"  //UserDefaults.standard.value(forKey: "current_db_file_name") as! String
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK
@@ -574,7 +574,7 @@ class DbOperations: NSObject {
     }
     
     func deleteAllFromTable(tableName: String){
-        let filename = "onTrack.sqlite" // UserDefaults.standard.value(forKey: "current_db_file_name") as! String
+        let filename = "onTrack.sqlite"  // UserDefaults.standard.value(forKey: "current_db_file_name") as! String
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         
         if sqlite3_open(fileURL.path, &db) != SQLITE_OK
@@ -633,7 +633,7 @@ class DbOperations: NSObject {
 
     }
     func clearLocalDBForUser(){
-        let filename = "onTrack.sqlite" //UserDefaults.standard.value(forKey: "current_db_file_name") as! String
+        let filename = "onTrack.sqlite"  //UserDefaults.standard.value(forKey: "current_db_file_name") as! String
         fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent(filename)
         do {
             try FileManager.default.removeItem(at: fileURL)

@@ -44,3 +44,13 @@ extension UITextField {
         self.rightViewMode = .always
     }
 }
+
+extension String {
+   func toBool() -> Bool{
+    if self == "false" {
+        return false
+    }else{
+        return true
+    }
+}
+}

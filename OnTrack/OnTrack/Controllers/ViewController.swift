@@ -122,16 +122,18 @@ class ViewController: UIViewController {
         var currentData = tempTaskArray[index!]
         if sender.isSelected {
             currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
-            currentData.updateValue(true, forKey: "is_completed")
-            tempTaskArray.remove(at: index!)
-            tempTaskArray.insert(currentData, at: index!)
+            currentData.updateValue("true", forKey: "is_completed")
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            tempTaskArray.removeAll()
+            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
             currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
-            currentData.updateValue(false, forKey: "is_completed")
-            tempTaskArray.remove(at: index!)
-            tempTaskArray.insert(currentData, at: index!)
+            currentData.updateValue("false", forKey: "is_completed")
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            tempTaskArray.removeAll()
+            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
@@ -144,15 +146,17 @@ class ViewController: UIViewController {
         let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
         var currentData = tempTaskArray[index!]
         if sender.isSelected {
-            currentData.updateValue(true, forKey: "is_priority")
-            tempTaskArray.remove(at: index!)
-            tempTaskArray.insert(currentData, at: index!)
+            currentData.updateValue("true", forKey: "is_priority")
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            tempTaskArray.removeAll()
+            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
-            currentData.updateValue(false, forKey: "is_priority")
-            tempTaskArray.remove(at: index!)
-            tempTaskArray.insert(currentData, at: index!)
+            currentData.updateValue("false", forKey: "is_priority")
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            tempTaskArray.removeAll()
+            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
@@ -175,8 +179,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.taskContentView.clipsToBounds = true
         cell.accessibilityIdentifier = currentTask["uuid"] as? String
         cell.taskNameLabel.text = currentTask["task_title"] as? String
-        cell.checkButton.isSelected = (currentTask["is_completed"] as? Bool)!
-        cell.priorityButton.isSelected = (currentTask["is_priority"] as? Bool)!
+        cell.checkButton.isSelected = (currentTask["is_completed"] as! String).toBool()
+        cell.priorityButton.isSelected = (currentTask["is_priority"] as! String).toBool()
         cell.tag = indexPath.row
         cell.checkButton.tag = indexPath.row
         cell.priorityButton.tag = indexPath.row
@@ -198,12 +202,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let currentData = tempTaskArray[indexPath.row]
         if editingStyle == .delete {
             // issue when deleting after searching
-            tempTaskArray.remove(at: indexPath.row)
-            taskArrayPayload.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            
+            DbOperations().deleteTable(deleteKey: "uuid", deleteValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            taskArrayPayload = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+            tempTaskArray = taskArrayPayload
+            tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()
             categoryCollectionView.reloadData()
             
@@ -239,7 +244,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.priorityTaskColor)
             cell.taskCategoryLabel.text = AppConstants.priorityTaskLabelText
             let priorityFilter = tempTaskArray.filter{ item in
-                item["is_priority"] as? Bool == true
+                item["is_priority"] as? String == "true"
             }
             cell.totalTasksLabel.text = "\(priorityFilter.count) tasks"
             break
@@ -248,7 +253,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.completedTaskColor)
             cell.taskCategoryLabel.text = AppConstants.completedTaskLabelText
             let completedFilter = tempTaskArray.filter{ item in
-                item["is_completed"] as? Bool == true
+                item["is_completed"] as? String == "true"
             }
             cell.totalTasksLabel.text = "\(completedFilter.count) tasks"
             break
