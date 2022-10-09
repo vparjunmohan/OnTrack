@@ -294,22 +294,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4CCB542A-96DB-4324-A498-ED8128F7C638"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OnTrack/Controllers/TaskDetailViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "88855F40-0356-43DF-9BBB-A9E011660E1A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -391,14 +375,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "13161016-B3CC-46AF-A6D9-04EA90763F77"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OnTrack/Controllers/TaskDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
             landmarkName = "clearCurrentDetail(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -407,64 +391,16 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "20B91A61-542D-4018-85F0-92E935F724F5"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OnTrack/Controllers/TaskDetailViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "showDismissKeyboard(_:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "C9E98B05-5651-4224-9D27-4AD68D3C05BD"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "OnTrack/Controllers/ViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "400"
-            endingLineNumber = "400"
-            landmarkName = "updateCurrentDetail(taskDetail:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "C9E98B05-5651-4224-9D27-4AD68D3C05BD - 900a3ca9351a0fdc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "OnTrack.ViewController.updateCurrentDetail(taskDetail: Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; ()"
-                  moduleName = "OnTrack"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/arjunmohan/Documents/GitHub/OnTrack/OnTrack/OnTrack/Controllers/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "411"
-                  endingLineNumber = "411"
-                  offsetFromSymbolStart = "268">
-               </Location>
-               <Location
-                  uuid = "C9E98B05-5651-4224-9D27-4AD68D3C05BD - 900a3ca9351a0fdc"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "OnTrack.ViewController.updateCurrentDetail(taskDetail: Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; ()"
-                  moduleName = "OnTrack"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/arjunmohan/Documents/GitHub/OnTrack/OnTrack/OnTrack/Controllers/ViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "411"
-                  endingLineNumber = "411"
-                  offsetFromSymbolStart = "288">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -567,7 +503,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "89E3824F-3610-4921-BA3C-5684887F9C3A"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "OnTrack/Controllers/ViewController.swift"
@@ -579,7 +515,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "89E3824F-3610-4921-BA3C-5684887F9C3A - 47560793972d2bba"
+                  uuid = "89E3824F-3610-4921-BA3C-5684887F9C3A - 47560793972d2a51"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -589,12 +525,12 @@
                   urlString = "file:///Users/arjunmohan/Documents/GitHub/OnTrack/OnTrack/OnTrack/Controllers/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "180">
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "176">
                </Location>
                <Location
-                  uuid = "89E3824F-3610-4921-BA3C-5684887F9C3A - 47560793972d2bba"
+                  uuid = "89E3824F-3610-4921-BA3C-5684887F9C3A - 47560793972d2a51"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -604,9 +540,9 @@
                   urlString = "file:///Users/arjunmohan/Documents/GitHub/OnTrack/OnTrack/OnTrack/Controllers/ViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "81"
-                  endingLineNumber = "81"
-                  offsetFromSymbolStart = "568">
+                  startingLineNumber = "76"
+                  endingLineNumber = "76"
+                  offsetFromSymbolStart = "564">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -656,6 +592,22 @@
             startingLineNumber = "21"
             endingLineNumber = "21"
             landmarkName = "scene(_:willConnectTo:options:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BE48A2A3-6362-443B-BD2E-4F45158C51B2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "OnTrack/Controllers/TaskDetailViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
+            landmarkName = "showDismissKeyboard(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

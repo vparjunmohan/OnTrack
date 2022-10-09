@@ -215,8 +215,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let currentTask = tempTaskArray[indexPath.row]
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TaskDetailViewController") as! TaskDetailViewController
         self.addChild(addVC)
-        addVC.updateTaskDetailDelegate = self
         addVC.selectedTask = currentTask
+        addVC.updateTaskDetailDelegate = self
         self.view.addSubview(addVC.view)
         addVC.didMove(toParent: self)
     }
@@ -395,12 +395,16 @@ extension ViewController : UIGestureRecognizerDelegate {
 }
 
 extension ViewController: UpdateTaskDetail {
-    func updateCurrentDetail(taskDetail: [String : Any]) {
-        let index = tempTaskArray.firstIndex(where: { ($0["task_id"] as! String) == taskDetail["task_id"] as? String })
-        if let index = index {
-            tempTaskArray.remove(at: index)
-            tempTaskArray.insert(taskDetail, at: index)
+    
+    func updateCurrentDetail() {
+        let currentUserTasks = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
+        if currentUserTasks.count > 0 {
+            taskArrayPayload.removeAll()
+            tempTaskArray.removeAll()
+            taskArrayPayload = currentUserTasks
+            tempTaskArray = taskArrayPayload
             todoTableView.reloadData()
+            categoryCollectionView.reloadData()
         }
     }
 }

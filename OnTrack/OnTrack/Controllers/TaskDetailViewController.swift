@@ -8,7 +8,7 @@
 import UIKit
 
 protocol UpdateTaskDetail {
-    func updateCurrentDetail(taskDetail: [String:Any])
+    func updateCurrentDetail()
 }
 
 class TaskDetailViewController: UIViewController {
@@ -20,31 +20,33 @@ class TaskDetailViewController: UIViewController {
     
     var selectedTask: [String:Any]!
     var updateTaskDetailDelegate: UpdateTaskDetail?
+    var taskDetails: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        titleHeader.text = selectedTask["task_title"] as? String
-        taskDetailTextView.text = selectedTask["task_detail"] as? String
-        taskDetailTextView.delegate = self
-        taskDetailTextView.becomeFirstResponder()
-    }
-    
-    
+
     @IBAction func clearCurrentDetail(_ sender: UIButton) {
         taskDetailTextView.text = ""
-        selectedTask.updateValue("", forKey: "task_detail")
+        selectedTask.updateValue(taskDetailTextView.text!, forKey: "task_detail")
+        DbOperations().updateTable(valuesToChange: selectedTask, whereKey: "task_id", whereValue: selectedTask["task_id"] as! String, tableName: AppConstants.taskTable)
     }
-    
 
     @IBAction func backToDashboard(_ sender: UIButton) {
+        selectedTask.updateValue(taskDetailTextView.text!, forKey: "task_detail")
+        DbOperations().updateTable(valuesToChange: selectedTask, whereKey: "task_id", whereValue: selectedTask["task_id"] as! String, tableName: AppConstants.taskTable)
         if updateTaskDetailDelegate != nil {
-            updateTaskDetailDelegate?.updateCurrentDetail(taskDetail: selectedTask)
+            updateTaskDetailDelegate?.updateCurrentDetail()
         }
-        self.view.removeFromSuperview()
+        if let parent = self.parent {
+            if parent is ViewController {
+                self.willMove(toParent: nil)
+                self.view.removeFromSuperview()
+                self.removeFromParent()
+            }
+        }
     }
     
     @objc func showDismissKeyboard(_ sender: UITapGestureRecognizer) {
@@ -72,5 +74,9 @@ extension TaskDetailViewController {
         clearButton.layer.borderWidth = 1
         let tap = UITapGestureRecognizer(target: self, action: #selector(showDismissKeyboard(_:)))
         taskDetailTextView.addGestureRecognizer(tap)
+        
+        taskDetailTextView.text = selectedTask["task_detail"] as? String
+        titleHeader.text = selectedTask["task_title"] as? String
+        taskDetailTextView.delegate = self
     }
 }
