@@ -41,7 +41,7 @@ class TaskDetailViewController: UIViewController {
             updateTaskDetailDelegate?.updateCurrentDetail()
         }
         if let parent = self.parent {
-            if parent is ViewController {
+            if parent is DashboardViewController {
                 self.willMove(toParent: nil)
                 self.view.removeFromSuperview()
                 self.removeFromParent()

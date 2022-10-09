@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  DashboardViewController.swift
 //  OnTrack
 //
 //  Created by Arjun Mohan on 03/01/22.
@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class ViewController: UIViewController {
+class DashboardViewController: UIViewController {
     
     @IBOutlet weak var todoTableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
@@ -185,7 +185,7 @@ class ViewController: UIViewController {
 }
 
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
+extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tempTaskArray.count
     }
@@ -246,7 +246,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
@@ -296,7 +296,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 }
 
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension DashboardViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -329,7 +329,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension ViewController: UITextFieldDelegate {
+extension DashboardViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let newText = (textField.text! as NSString).replacingCharacters(in: range, with: string)
@@ -355,7 +355,7 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController: PHPickerViewControllerDelegate {
+extension DashboardViewController: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         let itemProviders = results.map(\.itemProvider)
@@ -381,7 +381,7 @@ extension ViewController: PHPickerViewControllerDelegate {
     }
 }
 
-extension ViewController : UIGestureRecognizerDelegate {
+extension DashboardViewController : UIGestureRecognizerDelegate {
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldReceive touch: UITouch) -> Bool {
@@ -394,7 +394,7 @@ extension ViewController : UIGestureRecognizerDelegate {
     }
 }
 
-extension ViewController: UpdateTaskDetail {
+extension DashboardViewController: UpdateTaskDetail {
     
     func updateCurrentDetail() {
         let currentUserTasks = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]

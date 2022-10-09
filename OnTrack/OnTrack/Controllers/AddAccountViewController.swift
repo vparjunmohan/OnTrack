@@ -48,7 +48,7 @@ class AddAccountViewController: UIViewController {
                 let defaults = UserDefaults.standard
                 defaults.set(true, forKey: "logged_in")
                 defaults.set(userId, forKey: "user_id")
-                let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DashboardViewController") as! DashboardViewController
                 self.view.window?.rootViewController = storyboard
                 self.view.window?.makeKeyAndVisible()
             }

@@ -27,7 +27,10 @@ class MenuViewController: UIViewController {
         }
     }
 
-
+    @IBAction func addNewAccount(_ sender: UIButton) {
+        
+    }
+    
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
