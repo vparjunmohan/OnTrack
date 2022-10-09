@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="VW1-xo-h90">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="OnTrack" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="OnTrack" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,8 +74,8 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello Xyz!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFW-PZ-ZV2">
-                                <rect key="frame" x="20" y="113" width="141" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hi xyz" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFW-PZ-ZV2">
+                                <rect key="frame" x="20" y="113" width="85" height="36"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -181,6 +181,7 @@
                         <outlet property="categoryCollectionView" destination="RG9-IJ-4L8" id="uyb-Rb-9eS"/>
                         <outlet property="searchTextField" destination="Auc-Sc-J4R" id="utL-It-c2l"/>
                         <outlet property="todoTableView" destination="4Zp-Pq-rmx" id="p0x-em-lX7"/>
+                        <outlet property="usernameLabel" destination="aFW-PZ-ZV2" id="ZZD-Bz-jCr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -274,16 +275,57 @@
             </objects>
             <point key="canvasLocation" x="1011.5942028985507" y="12.723214285714285"/>
         </scene>
-        <!--View Controller-->
+        <!--Add Account View Controller-->
         <scene sceneID="vag-eF-61B">
             <objects>
-                <viewController id="VW1-xo-h90" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddAccountViewController" id="VW1-xo-h90" customClass="AddAccountViewController" customModule="OnTrack" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xBe-Do-8P6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YvA-ig-2RX">
+                                <rect key="frame" x="132" y="431" width="150" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="jBs-ld-oBC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Pn-WR-Dlb">
+                                <rect key="frame" x="157" y="485" width="100" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="Qh8-Sf-zan"/>
+                                    <constraint firstAttribute="width" constant="100" id="S8C-9Y-hh4"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Create"/>
+                                <connections>
+                                    <action selector="createNewAccount:" destination="VW1-xo-h90" eventType="touchUpInside" id="UKf-5q-A9w"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gO-AO-OEK">
+                                <rect key="frame" x="207" y="530" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="9it-Qw-5qd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="8Pn-WR-Dlb" firstAttribute="top" secondItem="YvA-ig-2RX" secondAttribute="bottom" constant="20" id="1UN-fi-lig"/>
+                            <constraint firstItem="9gO-AO-OEK" firstAttribute="top" secondItem="8Pn-WR-Dlb" secondAttribute="bottom" constant="10" id="PHT-ze-i7b"/>
+                            <constraint firstItem="9gO-AO-OEK" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="TxS-gJ-TCQ"/>
+                            <constraint firstItem="YvA-ig-2RX" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="hJn-t8-IzX"/>
+                            <constraint firstItem="YvA-ig-2RX" firstAttribute="centerY" secondItem="xBe-Do-8P6" secondAttribute="centerY" id="un5-ck-7PF"/>
+                            <constraint firstItem="8Pn-WR-Dlb" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="xcd-5O-gmt"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="createButton" destination="8Pn-WR-Dlb" id="8ZD-QU-xyf"/>
+                        <outlet property="errorLabel" destination="9gO-AO-OEK" id="67k-sp-NJj"/>
+                        <outlet property="usernameTextField" destination="YvA-ig-2RX" id="Fth-i4-tIe"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Rc-vJ-5t1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -15,5 +15,10 @@ class AppConstants: NSObject {
     public static let priorityTaskLabelText : String = "Priority Tasks"
     
     // Database tables
+    public static let userTable : String = "UserTable"
     public static let taskTable : String = "TaskTable"
+    
+    // Error messages
+    public static let usernameEmpty : String = "Username cannot be empty"
+    public static let usernameExists : String = "Username already exists"
 }

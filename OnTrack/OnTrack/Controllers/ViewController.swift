@@ -14,12 +14,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var usernameLabel: UILabel!
+    
     
     var taskListArray: [String] = []
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
     var selectedImage: UIImage?
-    var currentUserId: String!
+//    var currentUserId: String!
+    var username: String!
+    var userId: String!
+    
+    let accountPayload = AccountEntity()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +45,7 @@ class ViewController: UIViewController {
                 } else {
                     let uuid = UUID().uuidString
 //                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
-                    TaskDataEntity.taskData.updateValue(currentUserId!, forKey: "current_user")
+                    TaskDataEntity.taskData.updateValue(userId!, forKey: "current_user")
                     TaskDataEntity.taskData.updateValue(uuid, forKey: "uuid")
                     TaskDataEntity.taskData.updateValue(result, forKey: "task_title")
                     TaskDataEntity.taskData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
@@ -48,7 +54,6 @@ class ViewController: UIViewController {
                     self.tempTaskArray = self.taskArrayPayload
                     self.todoTableView.reloadData()
                     self.categoryCollectionView.reloadData()
-//                    self.taskArrayPayload.append(taskData)
                 }
             }
             
@@ -72,7 +77,27 @@ class ViewController: UIViewController {
     }
     
     func setupUI() {
-        currentUserId = UUID().uuidString
+        
+        if let currentUserId = UserDefaults.standard.object(forKey: "user_id") as? String {
+            userId = currentUserId
+            let currentUserData = DbOperations().selectTableWhere(tableName: AppConstants.userTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
+            if currentUserData.count > 0 {
+                // user exists
+                let username = currentUserData[0]["user_name"] as? String
+                usernameLabel.text = "Hi \(username!)"
+                let avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
+                let image = UIImage(data: avatarImgData!)
+                if image == nil {
+                    // display sample avatar image
+                    avatarImageView.image = UIImage(named: "avatarImage")
+                } else {
+                    avatarImageView.image = image
+                }
+                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "current_user", selectValue: userId!) as! [[String:Any]]
+                tempTaskArray = taskArrayPayload
+                
+            }
+        }
         categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
         todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         let avatarClicked = UITapGestureRecognizer(target: self, action: #selector(uploadAvatarImage))
@@ -96,6 +121,10 @@ class ViewController: UIViewController {
         searchTextField.clipsToBounds = true
         searchTextField.backgroundColor = UIColor.init(hexString: AppColorConstants.searchFieldColor)
         searchTextField.delegate = self
+
+
+        
+        
         //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         //        self.view.addGestureRecognizer(tapGesture)
     }
@@ -347,29 +376,7 @@ extension ViewController: PHPickerViewControllerDelegate {
                     DispatchQueue.main.async { [self] in
                         if let image = image as? UIImage {
                             avatarImageView.image = image
-                            TaskDataEntity.taskData.updateValue(AppUtils().convertImageToBase64String(img: avatarImageView.image!), forKey: "avatar_image_data")
-                            var currentDb = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "current_user", selectValue: currentUserId!) as! [[String:Any]]
-                            if currentDb.count > 0 {
-                                var modifiedData: [String:Any]!
-                                for data in 0..<currentDb.count {
-                                    modifiedData = currentDb[data]
-                                    let avatarImgString = AppUtils().convertImageToBase64String(img: avatarImageView.image!)
-                                    modifiedData.updateValue(avatarImgString, forKey: "avatar_image_data")
-                                    currentDb.remove(at: data)
-                                    currentDb.insert(modifiedData, at: data)
-                                }
-                                // delete current database
-                                DbOperations().deleteAllFromTable(tableName: AppConstants.taskTable)
-                                for modifiedData in currentDb {
-                                    DbOperations().insertTable(insertvalues: modifiedData, tableName: AppConstants.taskTable, uniquekey: "uuid")
-                                }
-                                taskArrayPayload.removeAll()
-                                tempTaskArray.removeAll()
-                                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "current_user", selectValue: currentUserId!) as! [[String:Any]]
-                                tempTaskArray = taskArrayPayload
-                                todoTableView.reloadData()
-                                categoryCollectionView.reloadData()
-                            }
+                            DbOperations().updateTable(valuesToChange: ["avatar_image_data": AppUtils().convertImageToBase64String(img: avatarImageView.image!)], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
                             picker.dismiss(animated: true)
                         } else{
                             picker.dismiss(animated: true)
