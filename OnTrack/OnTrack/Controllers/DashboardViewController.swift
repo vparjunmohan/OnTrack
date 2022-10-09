@@ -21,7 +21,6 @@ class DashboardViewController: UIViewController {
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
     var selectedImage: UIImage?
-    var username: String!
     var userId: String!
     
     
@@ -46,7 +45,7 @@ class DashboardViewController: UIViewController {
                     AppEntity.taskManagement.updateValue(result, forKey: "task_title")
                     AppEntity.taskManagement.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
                     DbOperations().insertTable(insertvalues: AppEntity.taskManagement, tableName: AppConstants.taskTable, uniquekey: "task_id")
-                    self.taskArrayPayload = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+                    self.taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
                     self.tempTaskArray = self.taskArrayPayload
                     self.todoTableView.reloadData()
                     self.categoryCollectionView.reloadData()
@@ -67,6 +66,8 @@ class DashboardViewController: UIViewController {
     @IBAction func didClickSideBar(_ sender: UIButton) {
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
         addVC.modalPresentationStyle = .overCurrentContext
+        addVC.loggedId = userId
+        addVC.updateTaskDetailDelegate = self
         addVC.view.layer.speed = 0.5
         self.present(addVC, animated: true)
     }
@@ -394,17 +395,23 @@ extension DashboardViewController : UIGestureRecognizerDelegate {
     }
 }
 
-extension DashboardViewController: UpdateTaskDetail {
-    
-    func updateCurrentDetail() {
-        let currentUserTasks = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
-        if currentUserTasks.count > 0 {
-            taskArrayPayload.removeAll()
-            tempTaskArray.removeAll()
-            taskArrayPayload = currentUserTasks
-            tempTaskArray = taskArrayPayload
-            todoTableView.reloadData()
-            categoryCollectionView.reloadData()
+extension DashboardViewController: UpdateTaskDetailDelegate {
+    func updateCurrentDetail(currentUserId: String) {
+        userId = currentUserId
+        let currentUserTasks = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: currentUserId) as! [[String:Any]]
+        taskArrayPayload.removeAll()
+        tempTaskArray.removeAll()
+        taskArrayPayload = currentUserTasks
+        tempTaskArray = taskArrayPayload
+        todoTableView.reloadData()
+        categoryCollectionView.reloadData()
+        
+        let currentUser = DbOperations().selectTableWhere(tableName: AppConstants.userTable, selectKey: "user_id", selectValue: currentUserId) as! [[String:Any]]
+        if currentUser.count > 0 {
+            let username = currentUser[0]["user_name"] as! String
+            usernameLabel.text = "Hi \(username)"
+            let avatarImgData = Data(base64Encoded: (currentUser[0]["avatar_image_data"] as? String)!)
+            avatarImageView.image = UIImage(data: avatarImgData!)
         }
     }
 }

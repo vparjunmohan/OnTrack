@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol UpdateTaskDetail {
-    func updateCurrentDetail()
+protocol UpdateTaskDetailDelegate {
+    func updateCurrentDetail(currentUserId: String)
 }
 
 class TaskDetailViewController: UIViewController {
@@ -19,7 +19,7 @@ class TaskDetailViewController: UIViewController {
     @IBOutlet weak var clearButton: UIButton!
     
     var selectedTask: [String:Any]!
-    var updateTaskDetailDelegate: UpdateTaskDetail?
+    var updateTaskDetailDelegate: UpdateTaskDetailDelegate!
     var taskDetails: String!
     
     override func viewDidLoad() {
@@ -38,7 +38,7 @@ class TaskDetailViewController: UIViewController {
         selectedTask.updateValue(taskDetailTextView.text!, forKey: "task_detail")
         DbOperations().updateTable(valuesToChange: selectedTask, whereKey: "task_id", whereValue: selectedTask["task_id"] as! String, tableName: AppConstants.taskTable)
         if updateTaskDetailDelegate != nil {
-            updateTaskDetailDelegate?.updateCurrentDetail()
+            updateTaskDetailDelegate?.updateCurrentDetail(currentUserId: selectedTask["user_id"] as! String)
         }
         if let parent = self.parent {
             if parent is DashboardViewController {
