@@ -45,11 +45,11 @@ class ViewController: UIViewController {
                 } else {
                     let uuid = UUID().uuidString
 //                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
-                    TaskDataEntity.taskData.updateValue(userId!, forKey: "current_user")
-                    TaskDataEntity.taskData.updateValue(uuid, forKey: "uuid")
-                    TaskDataEntity.taskData.updateValue(result, forKey: "task_title")
-                    TaskDataEntity.taskData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
-                    DbOperations().insertTable(insertvalues: TaskDataEntity.taskData, tableName: AppConstants.taskTable, uniquekey: "uuid")
+                    AppEntity.taskManagement.updateValue(userId!, forKey: "user_id")
+                    AppEntity.taskManagement.updateValue(uuid, forKey: "uuid")
+                    AppEntity.taskManagement.updateValue(result, forKey: "task_title")
+                    AppEntity.taskManagement.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
+                    DbOperations().insertTable(insertvalues: AppEntity.taskManagement, tableName: AppConstants.taskTable, uniquekey: "task_id")
                     self.taskArrayPayload = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
                     self.tempTaskArray = self.taskArrayPayload
                     self.todoTableView.reloadData()
@@ -93,7 +93,7 @@ class ViewController: UIViewController {
                 } else {
                     avatarImageView.image = image
                 }
-                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "current_user", selectValue: userId!) as! [[String:Any]]
+                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
                 tempTaskArray = taskArrayPayload
                 
             }
@@ -150,12 +150,12 @@ class ViewController: UIViewController {
         sender.isSelected = !sender.isSelected
         let senderTag = sender.tag
         let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
-        let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
+        let index = tempTaskArray.firstIndex(where: { $0["task_id"] as? String == selectedCell?.accessibilityIdentifier })
         var currentData = tempTaskArray[index!]
         if sender.isSelected {
             currentData.updateValue(AppColorConstants.checkedTaskColor, forKey: "initial_bg_color")
             currentData.updateValue("true", forKey: "is_completed")
-            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
             tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
@@ -163,7 +163,7 @@ class ViewController: UIViewController {
         } else {
             currentData.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
             currentData.updateValue("false", forKey: "is_completed")
-            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
             tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
@@ -175,18 +175,18 @@ class ViewController: UIViewController {
         sender.isSelected = !sender.isSelected
         let senderTag = sender.tag
         let selectedCell = todoTableView.cellForRow(at: IndexPath(row: senderTag, section: 0)) as? TaskTableViewCell
-        let index = tempTaskArray.firstIndex(where: { $0["uuid"] as? String == selectedCell?.accessibilityIdentifier })
+        let index = tempTaskArray.firstIndex(where: { $0["task_id"] as? String == selectedCell?.accessibilityIdentifier })
         var currentData = tempTaskArray[index!]
         if sender.isSelected {
             currentData.updateValue("true", forKey: "is_priority")
-            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
             tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
             currentData.updateValue("false", forKey: "is_priority")
-            DbOperations().updateTable(valuesToChange: currentData, whereKey: "uuid", whereValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
             tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             todoTableView.reloadData()
@@ -209,7 +209,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.separatorInset = .zero
         cell.taskContentView.layer.cornerRadius = 10
         cell.taskContentView.clipsToBounds = true
-        cell.accessibilityIdentifier = currentTask["uuid"] as? String
+        cell.accessibilityIdentifier = currentTask["task_id"] as? String
         cell.taskNameLabel.text = currentTask["task_title"] as? String
         cell.checkButton.isSelected = (currentTask["is_completed"] as! String).toBool()
         cell.priorityButton.isSelected = (currentTask["is_priority"] as! String).toBool()
@@ -237,7 +237,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let currentData = tempTaskArray[indexPath.row]
         if editingStyle == .delete {
             // issue when deleting after searching
-            DbOperations().deleteTable(deleteKey: "uuid", deleteValue: currentData["uuid"] as! String, tableName: AppConstants.taskTable)
+            DbOperations().deleteTable(deleteKey: "task_id", deleteValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             taskArrayPayload = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
             tempTaskArray = taskArrayPayload
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -407,7 +407,7 @@ extension ViewController : UIGestureRecognizerDelegate {
 
 extension ViewController: UpdateTaskDetail {
     func updateCurrentDetail(taskDetail: [String : Any]) {
-        let index = tempTaskArray.firstIndex(where: { ($0["uuid"] as! String) == taskDetail["uuid"] as? String })
+        let index = tempTaskArray.firstIndex(where: { ($0["task_id"] as! String) == taskDetail["task_id"] as? String })
         if let index = index {
             tempTaskArray.remove(at: index)
             tempTaskArray.insert(taskDetail, at: index)

@@ -13,7 +13,6 @@ class AddAccountViewController: UIViewController {
     @IBOutlet weak var createButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
     
-    var userCreationDict = ["user_name": "", "user_id": "", "avatar_image_data": ""]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,9 +41,9 @@ class AddAccountViewController: UIViewController {
             } else {
                 // new user
                 let userId = UUID().uuidString
-                userCreationDict.updateValue(userId, forKey: "user_id")
-                userCreationDict.updateValue(usernameTextField.text!.lowercased(), forKey: "user_name")
-                DbOperations().insertTable(insertvalues: userCreationDict, tableName: AppConstants.userTable, uniquekey: "user_name")
+                AppEntity.accountManagement.updateValue(userId, forKey: "user_id")
+                AppEntity.accountManagement.updateValue(usernameTextField.text!.lowercased(), forKey: "user_name")
+                DbOperations().insertTable(insertvalues: AppEntity.accountManagement, tableName: AppConstants.userTable, uniquekey: "user_name")
                 let defaults = UserDefaults.standard
                 defaults.set(true, forKey: "logged_in")
                 defaults.set(userId, forKey: "user_id")

@@ -18,9 +18,8 @@
 		DE0B592128434D1D00A5F418 /* TaskDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE0B592028434D1D00A5F418 /* TaskDetailViewController.swift */; };
 		DE158B5C2784B15C00432405 /* CategoriesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */; };
 		DE158B5D2784B15C00432405 /* CategoriesCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */; };
-		DE325DFC28EDE08300600A83 /* TaskDataEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE325DFB28EDE08300600A83 /* TaskDataEntity.swift */; };
 		DED1196428F2D4E5002ABC28 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1196328F2D4E5002ABC28 /* AddAccountViewController.swift */; };
-		DED1196628F30BE1002ABC28 /* AccountEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1196528F30BE1002ABC28 /* AccountEntity.swift */; };
+		DED1196828F31209002ABC28 /* AppEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1196728F31209002ABC28 /* AppEntity.swift */; };
 		DED617AB27836CAF00503DAF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617AA27836CAF00503DAF /* AppDelegate.swift */; };
 		DED617AD27836CAF00503DAF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617AC27836CAF00503DAF /* SceneDelegate.swift */; };
 		DED617AF27836CAF00503DAF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED617AE27836CAF00503DAF /* ViewController.swift */; };
@@ -63,9 +62,8 @@
 		DE0B592028434D1D00A5F418 /* TaskDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetailViewController.swift; sourceTree = "<group>"; };
 		DE158B5A2784B15C00432405 /* CategoriesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesCollectionViewCell.swift; sourceTree = "<group>"; };
 		DE158B5B2784B15C00432405 /* CategoriesCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoriesCollectionViewCell.xib; sourceTree = "<group>"; };
-		DE325DFB28EDE08300600A83 /* TaskDataEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDataEntity.swift; sourceTree = "<group>"; };
 		DED1196328F2D4E5002ABC28 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
-		DED1196528F30BE1002ABC28 /* AccountEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountEntity.swift; sourceTree = "<group>"; };
+		DED1196728F31209002ABC28 /* AppEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntity.swift; sourceTree = "<group>"; };
 		DED617A727836CAF00503DAF /* OnTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DED617AA27836CAF00503DAF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DED617AC27836CAF00503DAF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -114,6 +112,7 @@
 				DE0B59102840DC3800A5F418 /* AppExtensions.swift */,
 				DE0B591C28415CD500A5F418 /* AppColorConstants.swift */,
 				DE0B591E2841611200A5F418 /* AppConstants.swift */,
+				DED1196728F31209002ABC28 /* AppEntity.swift */,
 			);
 			path = AppConfig;
 			sourceTree = "<group>";
@@ -146,12 +145,10 @@
 		DE0B59192841557F00A5F418 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				DE325DFB28EDE08300600A83 /* TaskDataEntity.swift */,
 				DED617AE27836CAF00503DAF /* ViewController.swift */,
 				DE0B592028434D1D00A5F418 /* TaskDetailViewController.swift */,
 				DE09FFB628F0AEBA0037A320 /* MenuViewController.swift */,
 				DED1196328F2D4E5002ABC28 /* AddAccountViewController.swift */,
-				DED1196528F30BE1002ABC28 /* AccountEntity.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -371,9 +368,7 @@
 				DE09FFB728F0AEBA0037A320 /* MenuViewController.swift in Sources */,
 				DE0B591F2841611200A5F418 /* AppConstants.swift in Sources */,
 				DE0B591D28415CD500A5F418 /* AppColorConstants.swift in Sources */,
-				DE325DFC28EDE08300600A83 /* TaskDataEntity.swift in Sources */,
 				DED1196428F2D4E5002ABC28 /* AddAccountViewController.swift in Sources */,
-				DED1196628F30BE1002ABC28 /* AccountEntity.swift in Sources */,
 				DED617AF27836CAF00503DAF /* ViewController.swift in Sources */,
 				DE0B592128434D1D00A5F418 /* TaskDetailViewController.swift in Sources */,
 				DED617AB27836CAF00503DAF /* AppDelegate.swift in Sources */,
@@ -381,6 +376,7 @@
 				DE158B5C2784B15C00432405 /* CategoriesCollectionViewCell.swift in Sources */,
 				DE0B59112840DC3800A5F418 /* AppExtensions.swift in Sources */,
 				DE0B59142841357C00A5F418 /* DbOperations.swift in Sources */,
+				DED1196828F31209002ABC28 /* AppEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
