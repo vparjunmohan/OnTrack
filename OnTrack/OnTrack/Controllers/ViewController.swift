@@ -21,11 +21,9 @@ class ViewController: UIViewController {
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
     var selectedImage: UIImage?
-//    var currentUserId: String!
     var username: String!
     var userId: String!
     
-    let accountPayload = AccountEntity()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +41,8 @@ class ViewController: UIViewController {
                 if result.trimmingCharacters(in: .whitespaces).isEmpty {
                     self.displayEmptyFieldAlert()
                 } else {
-                    let uuid = UUID().uuidString
-//                    var taskData = ["uuid": uuid, "task_title": result,"is_completed":false, "is_priority": false, "task_detail":"", "initial_bg_color": AppColorConstants.defaultTaskColor] as [String : Any]
                     AppEntity.taskManagement.updateValue(userId!, forKey: "user_id")
-                    AppEntity.taskManagement.updateValue(uuid, forKey: "uuid")
+                    AppEntity.taskManagement.updateValue(UUID().uuidString, forKey: "task_id")
                     AppEntity.taskManagement.updateValue(result, forKey: "task_title")
                     AppEntity.taskManagement.updateValue(AppColorConstants.defaultTaskColor, forKey: "initial_bg_color")
                     DbOperations().insertTable(insertvalues: AppEntity.taskManagement, tableName: AppConstants.taskTable, uniquekey: "task_id")
@@ -73,7 +69,6 @@ class ViewController: UIViewController {
         addVC.modalPresentationStyle = .overCurrentContext
         addVC.view.layer.speed = 0.5
         self.present(addVC, animated: true)
-        
     }
     
     func setupUI() {
@@ -86,13 +81,7 @@ class ViewController: UIViewController {
                 let username = currentUserData[0]["user_name"] as? String
                 usernameLabel.text = "Hi \(username!)"
                 let avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
-                let image = UIImage(data: avatarImgData!)
-                if image == nil {
-                    // display sample avatar image
-                    avatarImageView.image = UIImage(named: "avatarImage")
-                } else {
-                    avatarImageView.image = image
-                }
+                avatarImageView.image = UIImage(data: avatarImgData!)
                 taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
                 tempTaskArray = taskArrayPayload
                 
@@ -157,7 +146,7 @@ class ViewController: UIViewController {
             currentData.updateValue("true", forKey: "is_completed")
             DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
-            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+            tempTaskArray = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: currentData["user_id"] as! String) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
@@ -165,7 +154,7 @@ class ViewController: UIViewController {
             currentData.updateValue("false", forKey: "is_completed")
             DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
-            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+            tempTaskArray = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: currentData["user_id"] as! String) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
@@ -181,14 +170,14 @@ class ViewController: UIViewController {
             currentData.updateValue("true", forKey: "is_priority")
             DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
-            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+            tempTaskArray = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: currentData["user_id"] as! String) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         } else {
             currentData.updateValue("false", forKey: "is_priority")
             DbOperations().updateTable(valuesToChange: currentData, whereKey: "task_id", whereValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
             tempTaskArray.removeAll()
-            tempTaskArray = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+            tempTaskArray = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: currentData["user_id"] as! String) as! [[String:Any]]
             todoTableView.reloadData()
             categoryCollectionView.reloadData()
         }
@@ -238,7 +227,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             // issue when deleting after searching
             DbOperations().deleteTable(deleteKey: "task_id", deleteValue: currentData["task_id"] as! String, tableName: AppConstants.taskTable)
-            taskArrayPayload = DbOperations().selectTable(tableName: AppConstants.taskTable) as! [[String:Any]]
+            taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: currentData["user_id"] as! String) as! [[String:Any]]
             tempTaskArray = taskArrayPayload
             tableView.deleteRows(at: [indexPath], with: .automatic)
             tableView.reloadData()

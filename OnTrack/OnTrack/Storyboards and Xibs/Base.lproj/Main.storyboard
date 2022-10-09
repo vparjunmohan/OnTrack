@@ -309,19 +309,29 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarImage" translatesAutoresizingMaskIntoConstraints="NO" id="dFn-J2-L6a">
+                                <rect key="frame" x="172" y="341" width="70" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="5SA-gI-BRw"/>
+                                    <constraint firstAttribute="height" constant="70" id="qRx-el-dC8"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="9it-Qw-5qd"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="8Pn-WR-Dlb" firstAttribute="top" secondItem="YvA-ig-2RX" secondAttribute="bottom" constant="20" id="1UN-fi-lig"/>
+                            <constraint firstItem="YvA-ig-2RX" firstAttribute="top" secondItem="dFn-J2-L6a" secondAttribute="bottom" constant="20" id="Mh2-h1-MSE"/>
                             <constraint firstItem="9gO-AO-OEK" firstAttribute="top" secondItem="8Pn-WR-Dlb" secondAttribute="bottom" constant="10" id="PHT-ze-i7b"/>
                             <constraint firstItem="9gO-AO-OEK" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="TxS-gJ-TCQ"/>
                             <constraint firstItem="YvA-ig-2RX" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="hJn-t8-IzX"/>
+                            <constraint firstItem="dFn-J2-L6a" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="sKa-ay-6UT"/>
                             <constraint firstItem="YvA-ig-2RX" firstAttribute="centerY" secondItem="xBe-Do-8P6" secondAttribute="centerY" id="un5-ck-7PF"/>
                             <constraint firstItem="8Pn-WR-Dlb" firstAttribute="centerX" secondItem="xBe-Do-8P6" secondAttribute="centerX" id="xcd-5O-gmt"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="avatarImageView" destination="dFn-J2-L6a" id="y1d-FC-9U2"/>
                         <outlet property="createButton" destination="8Pn-WR-Dlb" id="8ZD-QU-xyf"/>
                         <outlet property="errorLabel" destination="9gO-AO-OEK" id="67k-sp-NJj"/>
                         <outlet property="usernameTextField" destination="YvA-ig-2RX" id="Fth-i4-tIe"/>
