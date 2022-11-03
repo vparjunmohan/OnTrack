@@ -81,8 +81,14 @@ class DashboardViewController: UIViewController {
                 // user exists
                 let username = currentUserData[0]["user_name"] as? String
                 usernameLabel.text = "Hi \(username!)"
-                let avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
-                avatarImageView.image = UIImage(data: avatarImgData!)
+                DispatchQueue.global(qos: .background).async {
+                    var avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
+                    DispatchQueue.main.async { [self] in
+                        avatarImageView.image = UIImage(data: avatarImgData!)
+                    }
+                }
+//                let avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
+//                avatarImageView.image = UIImage(data: avatarImgData!)
                 taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
                 tempTaskArray = taskArrayPayload
                 
@@ -366,7 +372,12 @@ extension DashboardViewController: PHPickerViewControllerDelegate {
                     DispatchQueue.main.async { [self] in
                         if let image = image as? UIImage {
                             avatarImageView.image = image
-                            DbOperations().updateTable(valuesToChange: ["avatar_image_data": AppUtils().convertImageToBase64String(img: avatarImageView.image!)], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
+                            let imageData = AppUtils().convertImageToBase64String(img: avatarImageView.image!)
+                            DispatchQueue.global(qos: .background).async {
+                                DbOperations().updateTable(valuesToChange: ["avatar_image_data": imageData], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
+                                
+                            }
+//                            DbOperations().updateTable(valuesToChange: ["avatar_image_data": AppUtils().convertImageToBase64String(img: avatarImageView.image!)], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
                             picker.dismiss(animated: true)
                         } else{
                             picker.dismiss(animated: true)

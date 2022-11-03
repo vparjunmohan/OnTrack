@@ -35,13 +35,21 @@ class MenuViewController: UIViewController {
                 self.dismiss(animated: true)
                 let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddAccountViewController") as! AddAccountViewController
                 parentController.addChild(storyboard)
+                storyboard.currentLoggedId = loggedId
                 parentController.view.addSubview(storyboard.view)
                 storyboard.didMove(toParent: parentController)
             }
         }
-       
     }
     
+    func retrieveImage(data: [String:Any]) {
+        
+        
+    }
+    
+    func displayImage(imgData: Data) {
+       
+    }
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -52,30 +60,32 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountsTableViewCell", for: indexPath) as! AccountsTableViewCell
         let currentUser = userAccounts[indexPath.row]
-        let avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
+//        let avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
         cell.accessibilityIdentifier = currentUser["user_id"] as? String
         cell.selectionStyle = .none
-        cell.accountImageView.image = UIImage(data: avatarImgData!)
-        cell.accountName.text = currentUser["user_name"] as? String
-        if loggedId != nil {
-            let loggedUserIndex = userAccounts.firstIndex { user in
-                user["user_id"] as? String == loggedId
-            }
-            if indexPath.row == loggedUserIndex {
-                cell.checkMarkImageView.isHidden = false
-            } else {
-                cell.checkMarkImageView.isHidden = true
+        DispatchQueue.global(qos: .background).async {
+            var avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
+            DispatchQueue.main.async {
+                cell.accountImageView.image = UIImage(data: avatarImgData!)
             }
         }
-        
+//        cell.accountImageView.image = UIImage(data: avatarImgData!)
+        cell.accountName.text = currentUser["user_name"] as? String
+        if currentUser["is_logged"] as? String == "true" {
+            cell.checkMarkImageView.isHidden = false
+        } else {
+            cell.checkMarkImageView.isHidden = true
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let selectedCell = tableView.cellForRow(at: indexPath) as? AccountsTableViewCell {
             let defaults = UserDefaults.standard
-            defaults.set(loggedId, forKey: "user_id")
-            selectedCell.checkMarkImageView.isHidden = false
+            DbOperations().updateTable(valuesToChange: ["is_logged": "false"], whereKey: "user_id", whereValue: loggedId!, tableName: AppConstants.userTable)
+            defaults.set(selectedCell.accessibilityIdentifier!, forKey: "user_id")
+            DbOperations().updateTable(valuesToChange: ["is_logged": "true"], whereKey: "user_id", whereValue: selectedCell.accessibilityIdentifier!, tableName: AppConstants.userTable)
+            tableView.reloadData()
             if updateTaskDetailDelegate != nil {
                 updateTaskDetailDelegate.updateCurrentDetail(currentUserId: selectedCell.accessibilityIdentifier!)
             }

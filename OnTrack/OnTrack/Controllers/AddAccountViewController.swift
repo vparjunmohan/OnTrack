@@ -14,6 +14,8 @@ class AddAccountViewController: UIViewController {
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var avatarImageView: UIImageView!
     
+    var currentLoggedId: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         errorLabel.isHidden = true
@@ -40,9 +42,13 @@ class AddAccountViewController: UIViewController {
                 errorLabel.textColor = AppColorConstants.error
             } else {
                 // new user
+                if currentLoggedId != nil {
+                    DbOperations().updateTable(valuesToChange: ["is_logged": "false"], whereKey: "user_id", whereValue: currentLoggedId!, tableName: AppConstants.userTable)
+                }
                 let userId = UUID().uuidString
                 AppEntity.accountManagement.updateValue(userId, forKey: "user_id")
                 AppEntity.accountManagement.updateValue(usernameTextField.text!.lowercased(), forKey: "user_name")
+                AppEntity.accountManagement.updateValue("true", forKey: "is_logged")
                 AppEntity.accountManagement.updateValue(AppUtils().convertImageToBase64String(img: avatarImageView.image!), forKey: "avatar_image_data")
                 DbOperations().insertTable(insertvalues: AppEntity.accountManagement, tableName: AppConstants.userTable, uniquekey: "user_name")
                 let defaults = UserDefaults.standard
