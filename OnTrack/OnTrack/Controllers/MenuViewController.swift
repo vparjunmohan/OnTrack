@@ -53,16 +53,6 @@ class MenuViewController: UIViewController {
                 storyboard.didMove(toParent: parent)
             }
         }
-//        if let parent = self.presentingViewController {
-//            if let parentController = parent as? DashboardViewController {
-//                self.dismiss(animated: true)
-//                let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddAccountViewController") as! AddAccountViewController
-//                parentController.addChild(storyboard)
-//                storyboard.currentLoggedId = loggedId
-//                parentController.view.addSubview(storyboard.view)
-//                storyboard.didMove(toParent: parentController)
-//            }
-//        }
     }
     
     @objc func deleteAccount(_ sender: UIButton) {
@@ -119,16 +109,8 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AccountsTableViewCell", for: indexPath) as! AccountsTableViewCell
         let currentUser = userAccounts[indexPath.row]
-//        let avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
         cell.accessibilityIdentifier = currentUser["user_id"] as? String
         cell.selectionStyle = .none
-//        DispatchQueue.global(qos: .background).async {
-//            var avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
-//            DispatchQueue.main.async {
-//                cell.accountImageView.image = UIImage(data: avatarImgData!)
-//            }
-//        }
-//        cell.accountImageView.image = UIImage(data: avatarImgData!)
         cell.accountName.text = currentUser["user_name"] as? String
         cell.removeButton.accessibilityIdentifier = currentUser["user_id"] as? String
         cell.removeButton.addTarget(self, action: #selector(deleteAccount(_:)), for: .touchUpInside)
@@ -164,21 +146,5 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70
-    }
-    
-    
-}
-
-
-extension MenuViewController {
-    func setupUI() {
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
-        popupView.clipsToBounds = true
-        popupView.layer.cornerRadius = 10
-        popupView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        accountsTableView.backgroundColor = .white
-        popupView.backgroundColor = .white
-        accountsTableView.register(UINib(nibName: "AccountsTableViewCell", bundle: nil), forCellReuseIdentifier: "AccountsTableViewCell")
-        userAccounts = DbOperations().selectTable(tableName: AppConstants.userTable) as! [[String:Any]]
     }
 }

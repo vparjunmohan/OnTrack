@@ -55,7 +55,6 @@ class AddAccountViewController: UIViewController {
                     AppEntity.accountManagement.updateValue(userId, forKey: "user_id")
                     AppEntity.accountManagement.updateValue(usernameTextField.text!, forKey: "user_name")
                     AppEntity.accountManagement.updateValue("true", forKey: "is_logged")
-    //                AppEntity.accountManagement.updateValue(AppUtils().convertImageToBase64String(img: avatarImageView.image!), forKey: "avatar_image_data")
                     DbOperations().insertTable(insertvalues: AppEntity.accountManagement, tableName: AppConstants.userTable, uniquekey: "user_name")
                     let defaults = UserDefaults.standard
                     defaults.set(true, forKey: "logged_in")

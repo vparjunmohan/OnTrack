@@ -24,7 +24,6 @@ class TaskDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
     }
 
@@ -63,20 +62,5 @@ extension TaskDetailViewController: UITextViewDelegate {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
         selectedTask.updateValue(newText, forKey: "task_detail")
         return true
-    }
-}
-
-extension TaskDetailViewController {
-    func setupUI() {
-        clearButton.layer.cornerRadius = 5
-        clearButton.clipsToBounds = true
-        clearButton.layer.borderColor = UIColor.systemRed.cgColor
-        clearButton.layer.borderWidth = 1
-        let tap = UITapGestureRecognizer(target: self, action: #selector(showDismissKeyboard(_:)))
-        taskDetailTextView.addGestureRecognizer(tap)
-        
-        taskDetailTextView.text = selectedTask["task_detail"] as? String
-        titleHeader.text = selectedTask["task_title"] as? String
-        taskDetailTextView.delegate = self
     }
 }

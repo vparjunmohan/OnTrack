@@ -6,10 +6,7 @@
 //
 
 import UIKit
-
-//class AppExtensions: NSObject {
-//
-//}
+import PhotosUI
 
 extension UIView {
     func applyCommonDropShadow(radius:CGFloat, opacity: Float) {
@@ -110,5 +107,82 @@ extension AddAccountViewController {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
+    }
+}
+
+
+extension DashboardViewController {
+    func setupUI() {
+        if let currentUserId = UserDefaults.standard.object(forKey: "user_id") as? String {
+            userId = currentUserId
+            let currentUserData = DbOperations().selectTableWhere(tableName: AppConstants.userTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
+            if currentUserData.count > 0 {
+                // user exists
+                let username = currentUserData[0]["user_name"] as? String
+                usernameLabel.text = "Hi \(username!)"
+                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
+                tempTaskArray = taskArrayPayload
+            }
+        }
+        categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
+        todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 5, y:0, width: CGFloat(18), height: CGFloat(18))
+        let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
+        button.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        button.tintColor = .lightGray
+        paddingView.addSubview(button)
+        searchTextField.leftViewMode = .always
+        searchTextField.rightViewMode = .never
+        searchTextField.leftView = paddingView
+        searchTextField.layer.cornerRadius = 17.5
+        searchTextField.clipsToBounds = true
+        searchTextField.backgroundColor = UIColor.init(hexString: AppColorConstants.searchFieldColor)
+        searchTextField.delegate = self
+    }
+    
+    @objc func touchClose(_ sender: UITapGestureRecognizer) {
+        searchTextField.resignFirstResponder()
+    }
+    
+    @objc func uploadAvatarImage() {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 1
+        config.filter = .images
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        searchTextField.resignFirstResponder()
+    }
+}
+
+extension MenuViewController {
+    func setupUI() {
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        popupView.clipsToBounds = true
+        popupView.layer.cornerRadius = 10
+        popupView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        accountsTableView.backgroundColor = .white
+        popupView.backgroundColor = .white
+        accountsTableView.register(UINib(nibName: "AccountsTableViewCell", bundle: nil), forCellReuseIdentifier: "AccountsTableViewCell")
+        userAccounts = DbOperations().selectTable(tableName: AppConstants.userTable) as! [[String:Any]]
+    }
+}
+
+extension TaskDetailViewController {
+    func setupUI() {
+        clearButton.layer.cornerRadius = 5
+        clearButton.clipsToBounds = true
+        clearButton.layer.borderColor = UIColor.systemRed.cgColor
+        clearButton.layer.borderWidth = 1
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showDismissKeyboard(_:)))
+        taskDetailTextView.addGestureRecognizer(tap)
+        
+        taskDetailTextView.text = selectedTask["task_detail"] as? String
+        titleHeader.text = selectedTask["task_title"] as? String
+        taskDetailTextView.delegate = self
     }
 }

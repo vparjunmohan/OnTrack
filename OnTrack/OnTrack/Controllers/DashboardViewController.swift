@@ -13,16 +13,13 @@ class DashboardViewController: UIViewController {
     @IBOutlet weak var todoTableView: UITableView!
     @IBOutlet weak var categoryCollectionView: UICollectionView!
     @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    
     
     var taskListArray: [String] = []
     var taskArrayPayload: [[String:Any]] = []
     var tempTaskArray: [[String:Any]] = []
     var selectedImage: UIImage?
     var userId: String!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,76 +67,6 @@ class DashboardViewController: UIViewController {
         addVC.updateTaskDetailDelegate = self
         self.view.addSubview(addVC.view)
         addVC.didMove(toParent: self)
-    }
-    
-    func setupUI() {
-        
-        if let currentUserId = UserDefaults.standard.object(forKey: "user_id") as? String {
-            userId = currentUserId
-            let currentUserData = DbOperations().selectTableWhere(tableName: AppConstants.userTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
-            if currentUserData.count > 0 {
-                // user exists
-                let username = currentUserData[0]["user_name"] as? String
-                usernameLabel.text = "Hi \(username!)"
-//                DispatchQueue.global(qos: .background).async {
-//                    var avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
-//                    DispatchQueue.main.async { [self] in
-//                        avatarImageView.image = UIImage(data: avatarImgData!)
-//                    }
-//                }
-//                let avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
-//                avatarImageView.image = UIImage(data: avatarImgData!)
-                taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
-                tempTaskArray = taskArrayPayload
-                
-            }
-        }
-        categoryCollectionView.register(UINib(nibName: "CategoriesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "categoryCell")
-        todoTableView.register(UINib(nibName: "TaskTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
-        let avatarClicked = UITapGestureRecognizer(target: self, action: #selector(uploadAvatarImage))
-        if selectedImage != nil {
-            avatarImageView.image = selectedImage
-        }
-        avatarImageView.layer.cornerRadius = 25
-        avatarImageView.clipsToBounds = true
-        avatarImageView.isUserInteractionEnabled = true
-        avatarImageView.addGestureRecognizer(avatarClicked)
-        let button = UIButton(type: .custom)
-        button.frame = CGRect(x: 5, y:0, width: CGFloat(18), height: CGFloat(18))
-        let paddingView: UIView = UIView.init(frame: CGRect(x: 0, y: 0, width: 25, height: 20))
-        button.setBackgroundImage(UIImage(systemName: "magnifyingglass"), for: .normal)
-        button.tintColor = .lightGray
-        paddingView.addSubview(button)
-        searchTextField.leftViewMode = .always
-        searchTextField.rightViewMode = .never
-        searchTextField.leftView = paddingView
-        searchTextField.layer.cornerRadius = 17.5
-        searchTextField.clipsToBounds = true
-        searchTextField.backgroundColor = UIColor.init(hexString: AppColorConstants.searchFieldColor)
-        searchTextField.delegate = self
-
-
-        
-        
-        //        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
-        //        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func touchClose(_ sender: UITapGestureRecognizer) {
-        searchTextField.resignFirstResponder()
-    }
-    
-    @objc func uploadAvatarImage() {
-        var config = PHPickerConfiguration()
-        config.selectionLimit = 1
-        config.filter = .images
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = self
-        present(picker, animated: true)
-    }
-    
-    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
-        searchTextField.resignFirstResponder()
     }
     
     @objc func checkButtonSelected(_ sender: UIButton) {
@@ -294,7 +221,6 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
         }
         cell.categoryContentView.layer.cornerRadius = 10
         cell.categoryContentView.clipsToBounds = true
-//        cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowOffset = CGSize(width: 0, height: 6.0)
         cell.layer.shadowRadius = 5.0
         cell.layer.shadowOpacity = 0.5
@@ -375,13 +301,6 @@ extension DashboardViewController: PHPickerViewControllerDelegate {
                 item.loadObject(ofClass: UIImage.self) { (image, error) in
                     DispatchQueue.main.async { [self] in
                         if let image = image as? UIImage {
-                            avatarImageView.image = image
-                            let imageData = AppUtils().convertImageToBase64String(img: avatarImageView.image!)
-//                            DispatchQueue.global(qos: .background).async {
-//                                DbOperations().updateTable(valuesToChange: ["avatar_image_data": imageData], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
-//
-//                            }
-//                            DbOperations().updateTable(valuesToChange: ["avatar_image_data": AppUtils().convertImageToBase64String(img: avatarImageView.image!)], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
                             picker.dismiss(animated: true)
                         } else{
                             picker.dismiss(animated: true)
@@ -420,13 +339,10 @@ extension DashboardViewController: UpdateTaskDetailDelegate {
         tempTaskArray = taskArrayPayload
         todoTableView.reloadData()
         categoryCollectionView.reloadData()
-        avatarImageView.isHidden = true
         let currentUser = DbOperations().selectTableWhere(tableName: AppConstants.userTable, selectKey: "user_id", selectValue: currentUserId) as! [[String:Any]]
         if currentUser.count > 0 {
             let username = currentUser[0]["user_name"] as! String
             usernameLabel.text = "Hi \(username)"
-//            let avatarImgData = Data(base64Encoded: (currentUser[0]["avatar_image_data"] as? String)!)
-//            avatarImageView.image = UIImage(data: avatarImgData!)
         }
     }
 }

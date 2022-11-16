@@ -132,13 +132,6 @@
                                     <action selector="addButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="35C-2y-irK"/>
                                 </connections>
                             </button>
-                            <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatarImage" translatesAutoresizingMaskIntoConstraints="NO" id="nYl-oH-2V5">
-                                <rect key="frame" x="305" y="52" width="50" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="iwy-jK-KUw"/>
-                                    <constraint firstAttribute="width" constant="50" id="uHh-ZS-DU6"/>
-                                </constraints>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -147,9 +140,7 @@
                             <constraint firstItem="RG9-IJ-4L8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3Wq-Fg-YcT"/>
                             <constraint firstItem="sj3-gm-Fml" firstAttribute="top" secondItem="RG9-IJ-4L8" secondAttribute="bottom" constant="15" id="Ad4-cQ-d7D"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fIa-gl-w8W" secondAttribute="trailing" id="DLm-S4-uOr"/>
-                            <constraint firstItem="nYl-oH-2V5" firstAttribute="top" secondItem="fIa-gl-w8W" secondAttribute="bottom" constant="12" id="Etr-c2-sqS"/>
                             <constraint firstAttribute="bottom" secondItem="4Zp-Pq-rmx" secondAttribute="bottom" id="K90-eO-P7Y"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nYl-oH-2V5" secondAttribute="trailing" constant="20" id="LRQ-1B-4w7"/>
                             <constraint firstItem="fIa-gl-w8W" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="MI7-RC-2dY"/>
                             <constraint firstItem="aFW-PZ-ZV2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="NOZ-Zl-hWI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4Zp-Pq-rmx" secondAttribute="trailing" constant="15" id="OXV-dI-2gg"/>
@@ -168,7 +159,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="avatarImageView" destination="nYl-oH-2V5" id="a0K-Wg-lx3"/>
                         <outlet property="categoryCollectionView" destination="RG9-IJ-4L8" id="uyb-Rb-9eS"/>
                         <outlet property="searchTextField" destination="Auc-Sc-J4R" id="utL-It-c2l"/>
                         <outlet property="todoTableView" destination="4Zp-Pq-rmx" id="p0x-em-lX7"/>
