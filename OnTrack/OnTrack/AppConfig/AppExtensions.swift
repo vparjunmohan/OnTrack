@@ -73,7 +73,6 @@ extension AddAccountViewController {
         usernameTextField.setRightPaddingPoints(10)
         errorLabel.textColor = AppColorConstants.error
         usernameTextField.delegate = self
-        usernameTextField.becomeFirstResponder()
         createButton.layer.cornerRadius = 25
         createButton.applyCommonDropShadow(radius: 10, opacity: 0.5)
         createButton.layer.shadowColor = UIColor.systemPurple.cgColor
