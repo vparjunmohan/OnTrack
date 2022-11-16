@@ -65,11 +65,11 @@ class DashboardViewController: UIViewController {
     
     @IBAction func didClickSideBar(_ sender: UIButton) {
         let addVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
-        addVC.modalPresentationStyle = .overCurrentContext
+        self.addChild(addVC)
         addVC.loggedId = userId
         addVC.updateTaskDetailDelegate = self
-        addVC.view.layer.speed = 0.5
-        self.present(addVC, animated: true)
+        self.view.addSubview(addVC.view)
+        addVC.didMove(toParent: self)
     }
     
     func setupUI() {
@@ -81,12 +81,12 @@ class DashboardViewController: UIViewController {
                 // user exists
                 let username = currentUserData[0]["user_name"] as? String
                 usernameLabel.text = "Hi \(username!)"
-                DispatchQueue.global(qos: .background).async {
-                    var avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
-                    DispatchQueue.main.async { [self] in
-                        avatarImageView.image = UIImage(data: avatarImgData!)
-                    }
-                }
+//                DispatchQueue.global(qos: .background).async {
+//                    var avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
+//                    DispatchQueue.main.async { [self] in
+//                        avatarImageView.image = UIImage(data: avatarImgData!)
+//                    }
+//                }
 //                let avatarImgData = Data(base64Encoded: (currentUserData[0]["avatar_image_data"] as? String)!)
 //                avatarImageView.image = UIImage(data: avatarImgData!)
                 taskArrayPayload = DbOperations().selectTableWhere(tableName: AppConstants.taskTable, selectKey: "user_id", selectValue: userId!) as! [[String:Any]]
@@ -204,7 +204,8 @@ extension DashboardViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.separatorInset = .zero
         cell.taskContentView.layer.cornerRadius = 10
-        cell.taskContentView.clipsToBounds = true
+        cell.taskContentView.applyCommonDropShadow(radius: 2.0, opacity: 0.8)
+        cell.taskContentView.layer.shadowColor = UIColor.init(hexString: (currentTask["initial_bg_color"] as? String)!)?.cgColor
         cell.accessibilityIdentifier = currentTask["task_id"] as? String
         cell.taskNameLabel.text = currentTask["task_title"] as? String
         cell.checkButton.isSelected = (currentTask["is_completed"] as! String).toBool()
@@ -266,6 +267,7 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
             cell.categoryContentView.backgroundColor = UIColor.init(hexString: AppColorConstants.totalTaskColor)
             cell.taskCategoryLabel.text = AppConstants.totalTaskLabelText
             cell.totalTasksLabel.text = "\(tempTaskArray.count) tasks"
+            cell.layer.shadowColor = UIColor.init(hexString: AppColorConstants.totalTaskColor)?.cgColor
             break
         case 1:
             // Priority
@@ -274,6 +276,7 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
             let priorityFilter = tempTaskArray.filter{ item in
                 item["is_priority"] as? String == "true"
             }
+            cell.layer.shadowColor = UIColor.init(hexString: AppColorConstants.priorityTaskColor)?.cgColor
             cell.totalTasksLabel.text = "\(priorityFilter.count) tasks"
             break
         case 2:
@@ -283,6 +286,7 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
             let completedFilter = tempTaskArray.filter{ item in
                 item["is_completed"] as? String == "true"
             }
+            cell.layer.shadowColor = UIColor.init(hexString: AppColorConstants.completedTaskColor)?.cgColor
             cell.totalTasksLabel.text = "\(completedFilter.count) tasks"
             break
         default:
@@ -290,7 +294,7 @@ extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDat
         }
         cell.categoryContentView.layer.cornerRadius = 10
         cell.categoryContentView.clipsToBounds = true
-        cell.layer.shadowColor = UIColor.black.cgColor
+//        cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowOffset = CGSize(width: 0, height: 6.0)
         cell.layer.shadowRadius = 5.0
         cell.layer.shadowOpacity = 0.5
@@ -373,10 +377,10 @@ extension DashboardViewController: PHPickerViewControllerDelegate {
                         if let image = image as? UIImage {
                             avatarImageView.image = image
                             let imageData = AppUtils().convertImageToBase64String(img: avatarImageView.image!)
-                            DispatchQueue.global(qos: .background).async {
-                                DbOperations().updateTable(valuesToChange: ["avatar_image_data": imageData], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
-                                
-                            }
+//                            DispatchQueue.global(qos: .background).async {
+//                                DbOperations().updateTable(valuesToChange: ["avatar_image_data": imageData], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
+//
+//                            }
 //                            DbOperations().updateTable(valuesToChange: ["avatar_image_data": AppUtils().convertImageToBase64String(img: avatarImageView.image!)], whereKey: "user_id", whereValue: userId!, tableName: AppConstants.userTable)
                             picker.dismiss(animated: true)
                         } else{
@@ -416,13 +420,13 @@ extension DashboardViewController: UpdateTaskDetailDelegate {
         tempTaskArray = taskArrayPayload
         todoTableView.reloadData()
         categoryCollectionView.reloadData()
-        
+        avatarImageView.isHidden = true
         let currentUser = DbOperations().selectTableWhere(tableName: AppConstants.userTable, selectKey: "user_id", selectValue: currentUserId) as! [[String:Any]]
         if currentUser.count > 0 {
             let username = currentUser[0]["user_name"] as! String
             usernameLabel.text = "Hi \(username)"
-            let avatarImgData = Data(base64Encoded: (currentUser[0]["avatar_image_data"] as? String)!)
-            avatarImageView.image = UIImage(data: avatarImgData!)
+//            let avatarImgData = Data(base64Encoded: (currentUser[0]["avatar_image_data"] as? String)!)
+//            avatarImageView.image = UIImage(data: avatarImgData!)
         }
     }
 }

@@ -21,4 +21,8 @@ class AppConstants: NSObject {
     // Error messages
     public static let usernameEmpty : String = "Username cannot be empty"
     public static let usernameExists : String = "Username already exists"
+    public static let exceedCharacters : String = "Username can only have 12 characters"
+    
+    // Common corner curve
+    public static let commonCornerCurve: CGFloat = 5.0
 }

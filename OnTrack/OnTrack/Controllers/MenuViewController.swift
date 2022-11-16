@@ -24,31 +24,39 @@ class MenuViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touches = touches.first
         if touches?.view != popupView {
-            self.view.window!.layer.speed = 0.5
-            self.dismiss(animated: true)
+            if let parent = self.parent {
+                if parent is DashboardViewController {
+                    self.willMove(toParent: nil)
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
+                }
+            }
         }
     }
 
     @IBAction func addNewAccount(_ sender: UIButton) {
-        if let parent = self.presentingViewController {
-            if let parentController = parent as? DashboardViewController {
-                self.dismiss(animated: true)
+        if let parent = self.parent {
+            if parent is DashboardViewController {
+                self.willMove(toParent: nil)
+                self.view.removeFromSuperview()
+                self.removeFromParent()
                 let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddAccountViewController") as! AddAccountViewController
-                parentController.addChild(storyboard)
+                parent.addChild(storyboard)
                 storyboard.currentLoggedId = loggedId
-                parentController.view.addSubview(storyboard.view)
-                storyboard.didMove(toParent: parentController)
+                parent.view.addSubview(storyboard.view)
+                storyboard.didMove(toParent: parent)
             }
         }
-    }
-    
-    func retrieveImage(data: [String:Any]) {
-        
-        
-    }
-    
-    func displayImage(imgData: Data) {
-       
+//        if let parent = self.presentingViewController {
+//            if let parentController = parent as? DashboardViewController {
+//                self.dismiss(animated: true)
+//                let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddAccountViewController") as! AddAccountViewController
+//                parentController.addChild(storyboard)
+//                storyboard.currentLoggedId = loggedId
+//                parentController.view.addSubview(storyboard.view)
+//                storyboard.didMove(toParent: parentController)
+//            }
+//        }
     }
 }
 
@@ -63,12 +71,12 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
 //        let avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
         cell.accessibilityIdentifier = currentUser["user_id"] as? String
         cell.selectionStyle = .none
-        DispatchQueue.global(qos: .background).async {
-            var avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
-            DispatchQueue.main.async {
-                cell.accountImageView.image = UIImage(data: avatarImgData!)
-            }
-        }
+//        DispatchQueue.global(qos: .background).async {
+//            var avatarImgData = Data(base64Encoded: (currentUser["avatar_image_data"] as? String)!)
+//            DispatchQueue.main.async {
+//                cell.accountImageView.image = UIImage(data: avatarImgData!)
+//            }
+//        }
 //        cell.accountImageView.image = UIImage(data: avatarImgData!)
         cell.accountName.text = currentUser["user_name"] as? String
         if currentUser["is_logged"] as? String == "true" {
@@ -89,8 +97,13 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
             if updateTaskDetailDelegate != nil {
                 updateTaskDetailDelegate.updateCurrentDetail(currentUserId: selectedCell.accessibilityIdentifier!)
             }
-            self.view.window!.layer.speed = 0.5
-            self.dismiss(animated: true)
+            if let parent = self.parent {
+                if parent is DashboardViewController {
+                    self.willMove(toParent: nil)
+                    self.view.removeFromSuperview()
+                    self.removeFromParent()
+                }
+            }
         }
     }
     
@@ -104,12 +117,12 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MenuViewController {
     func setupUI() {
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         popupView.clipsToBounds = true
         popupView.layer.cornerRadius = 10
         popupView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        accountsTableView.backgroundColor = AppColorConstants.menubarMainColor
-        popupView.backgroundColor = AppColorConstants.menubarMainColor
+        accountsTableView.backgroundColor = .white
+        popupView.backgroundColor = .white
         accountsTableView.register(UINib(nibName: "AccountsTableViewCell", bundle: nil), forCellReuseIdentifier: "AccountsTableViewCell")
         userAccounts = DbOperations().selectTable(tableName: AppConstants.userTable) as! [[String:Any]]
     }

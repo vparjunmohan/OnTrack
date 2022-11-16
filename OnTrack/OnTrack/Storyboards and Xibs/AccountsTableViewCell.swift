@@ -9,19 +9,18 @@ import UIKit
 
 class AccountsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var accountImageView: UIImageView!
     @IBOutlet weak var accountName: UILabel!
     @IBOutlet weak var checkMarkImageView: UIImageView!
     @IBOutlet weak var innerContentView: UIView!
+    @IBOutlet weak var removeButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        innerContentView.layer.cornerRadius = 15
+        innerContentView.layer.cornerRadius = 10
         innerContentView.clipsToBounds = true
-        accountImageView.layer.cornerRadius = 5
-        accountImageView.clipsToBounds = true
-        innerContentView.backgroundColor = AppColorConstants.menuCellColor
+        innerContentView.backgroundColor = UIColor(hexString: AppColorConstants.defaultTaskColor)
+        removeButton.layer.cornerRadius = 10
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
