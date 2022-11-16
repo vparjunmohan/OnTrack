@@ -26,6 +26,12 @@ class MenuViewController: UIViewController {
         if touches?.view != popupView {
             if let parent = self.parent {
                 if parent is DashboardViewController {
+                    let defaults = UserDefaults.standard
+                    if updateTaskDetailDelegate != nil {
+                        if let selectedUserId = defaults.object(forKey: "user_id") as? String {
+                            updateTaskDetailDelegate.updateCurrentDetail(currentUserId: selectedUserId)
+                        }
+                    }
                     self.willMove(toParent: nil)
                     self.view.removeFromSuperview()
                     self.removeFromParent()
@@ -58,6 +64,51 @@ class MenuViewController: UIViewController {
 //            }
 //        }
     }
+    
+    @objc func deleteAccount(_ sender: UIButton) {
+        if let deleteUserId = sender.accessibilityIdentifier {
+            DbOperations().deleteTable(deleteKey: "user_id", deleteValue: deleteUserId, tableName: AppConstants.userTable)
+            DbOperations().deleteTable(deleteKey: "user_id", deleteValue: deleteUserId, tableName: AppConstants.taskTable)
+            userAccounts = DbOperations().selectTable(tableName: AppConstants.userTable) as! [[String:Any]]
+            if userAccounts.count > 0 {
+                // user account exists
+                let initialAccount = userAccounts[0]
+                DbOperations().updateTable(valuesToChange: ["is_logged": "true"], whereKey: "user_id", whereValue: initialAccount["user_id"] as! String, tableName: AppConstants.userTable)
+                let defaults = UserDefaults.standard
+                defaults.set(initialAccount["user_id"] as! String, forKey: "user_id")
+                accountsTableView.reloadData()
+                if let parent = self.parent {
+                    if parent is DashboardViewController {
+                        let defaults = UserDefaults.standard
+                        if updateTaskDetailDelegate != nil {
+                            updateTaskDetailDelegate.updateCurrentDetail(currentUserId: initialAccount["user_id"] as! String)
+                        }
+                        self.willMove(toParent: nil)
+                        self.view.removeFromSuperview()
+                        self.removeFromParent()
+                    }
+                }
+            } else {
+                // all user accounts deleted
+                // clear user defaults. remove controllers. set add account controller as root controller
+                let defaults = UserDefaults.standard
+                defaults.removeObject(forKey: "user_id")
+                defaults.removeObject(forKey: "logged_in")
+                if let parent = self.parent {
+                    if parent is DashboardViewController {
+                        self.willMove(toParent: nil)
+                        self.view.removeFromSuperview()
+                        self.removeFromParent()
+                        if UserDefaults.standard.object(forKey: "logged_in") as? Bool == nil {
+                            let viewController =  UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "AddAccountViewController") as! AddAccountViewController
+                            parent.view.window?.rootViewController = viewController
+                            parent.view.window?.makeKeyAndVisible()
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
@@ -79,10 +130,14 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
 //        }
 //        cell.accountImageView.image = UIImage(data: avatarImgData!)
         cell.accountName.text = currentUser["user_name"] as? String
+        cell.removeButton.accessibilityIdentifier = currentUser["user_id"] as? String
+        cell.removeButton.addTarget(self, action: #selector(deleteAccount(_:)), for: .touchUpInside)
         if currentUser["is_logged"] as? String == "true" {
             cell.checkMarkImageView.isHidden = false
+            cell.accountName.font = UIFont(name: "Avenir Next Demi Bold", size: 16)
         } else {
             cell.checkMarkImageView.isHidden = true
+            cell.accountName.font = UIFont(name: "Avenir Next Regular", size: 16)
         }
         return cell
     }

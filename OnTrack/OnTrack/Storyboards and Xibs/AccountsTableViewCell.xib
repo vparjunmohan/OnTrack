@@ -22,7 +22,7 @@
                         <rect key="frame" x="5" y="5" width="342" height="60"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qSP-4V-jKV">
-                                <rect key="frame" x="20.000000000000004" y="19" width="40.333333333333343" height="22"/>
+                                <rect key="frame" x="20" y="19" width="262" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="Nef-pe-AB4"/>
                                 </constraints>
@@ -39,12 +39,13 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="tintColor"/>
+                        <color key="backgroundColor" systemColor="systemYellowColor"/>
                         <constraints>
                             <constraint firstItem="BQq-Ts-02G" firstAttribute="centerY" secondItem="ecU-Ga-4SW" secondAttribute="centerY" id="ERq-F5-acr"/>
                             <constraint firstItem="qSP-4V-jKV" firstAttribute="centerY" secondItem="ecU-Ga-4SW" secondAttribute="centerY" id="gm7-GC-xQH"/>
                             <constraint firstAttribute="trailing" secondItem="BQq-Ts-02G" secondAttribute="trailing" constant="20" id="lr7-zg-Rsb"/>
                             <constraint firstItem="qSP-4V-jKV" firstAttribute="leading" secondItem="ecU-Ga-4SW" secondAttribute="leading" constant="20" id="sFH-M1-fIG"/>
+                            <constraint firstItem="BQq-Ts-02G" firstAttribute="leading" secondItem="qSP-4V-jKV" secondAttribute="trailing" constant="10" id="wdT-Qc-HRw"/>
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="brE-O7-xBy">
@@ -88,8 +89,8 @@
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
-        <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
